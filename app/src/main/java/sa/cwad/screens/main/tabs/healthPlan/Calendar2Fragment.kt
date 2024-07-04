@@ -1,14 +1,13 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
 import sa.cwad.databinding.Calendar2Binding
+import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -16,29 +15,26 @@ import java.util.Locale
 
 class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
 
+    private val viewModel by viewModelCreator { CalendarViewModel() }
+
     private lateinit var binding: Calendar2Binding
     private lateinit var selectedDate: LocalDate
+    private var firstSelectTime: Long = 0
+    private val doubleClickTime = 500
+    private var formattedDate: String? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = Calendar2Binding.bind(view)
         selectedDate = LocalDate.now()
         setMonthView()
-        binding.backMonth.setOnClickListener {
-            selectedDate = selectedDate.minusMonths(1)
-            setMonthView()
-        }
-        binding.nextMonth.setOnClickListener {
-            selectedDate = selectedDate.plusMonths(1)
-            setMonthView()
-        }
+        previousMonthAction()
+        nextMonthAction()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setMonthView() {
-        binding.monthYearTV.text = monthYearFromDate(selectedDate)
-        val daysInMonth = daysInMonthList(selectedDate)
+        binding.monthYearTV.text = viewModel.monthYearFromDate(selectedDate)
+        val daysInMonth = viewModel.daysInMonthList(selectedDate)
 
         val calendarAdapter = CalendarAdapter(daysInMonth, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
@@ -46,53 +42,45 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         binding.calendarRecyclerView.adapter = calendarAdapter
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun daysInMonthList(date: LocalDate): List<String> {
-
-        val daysInMonthList = mutableListOf<String>()
-        val yearMonth = YearMonth.from(date)
-        val daysInMonth = yearMonth.lengthOfMonth()
-        val firstOfMonth = selectedDate.withDayOfMonth(1)
-        val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 2..43) {
-            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                daysInMonthList.add("")
-            } else {
-                val day = i - dayOfWeek
-                daysInMonthList.add(day.toString())
-            }
+    private fun previousMonthAction() {
+        binding.backMonth.setOnClickListener {
+            selectedDate = selectedDate.minusMonths(1)
+            setMonthView()
         }
-        if (daysInMonthList[6] == "") {
-            daysInMonthList.removeIf { it == "" }
+    }
+
+    private fun nextMonthAction() {
+        binding.nextMonth.setOnClickListener {
+            selectedDate = selectedDate.plusMonths(1)
+            setMonthView()
         }
-
-        return daysInMonthList
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun monthYearFromDate(date: LocalDate): String {
-        val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
-        val t = dateFormat.format(date)
-        return dateFormat.format(date)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun previousMonthAction(view: View) {
-        selectedDate = selectedDate.minusMonths(1)
-        setMonthView()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun nextMonthAction(view: View) {
-        selectedDate = selectedDate.plusMonths(1)
-        setMonthView()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun invoke(position: Int, dayText: String) {
+        val date = dayText + " " + viewModel.monthYearFromDate(selectedDate)
         if (dayText != "") {
-            val message = "Selected day " + dayText + " " + monthYearFromDate(selectedDate)
-            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            when {
+                firstSelectTime == 0L -> {
+                    // Первый выбор даты
+                    firstSelectTime = System.currentTimeMillis()
+                    formattedDate = date
+                }
+
+                (System.currentTimeMillis() - firstSelectTime <= doubleClickTime) && (formattedDate == date) -> {
+                    // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
+                    val message = "Selected day " + dayText + " " + viewModel.monthYearFromDate(selectedDate)
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
+                    firstSelectTime = 0
+                    formattedDate = date
+                }
+
+                else -> {
+                    // Сброс времени первого выбора, если это не был двойной клик
+                    firstSelectTime = 0
+                    formattedDate = date
+                }
+            }
         }
     }
 }

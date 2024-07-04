@@ -9,9 +9,13 @@ import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import sa.cwad.R
+import sa.cwad.Repositories
 import sa.cwad.databinding.CalendarBinding
+import sa.cwad.screens.main.tabs.dashboard.DashboardViewModel
+import sa.cwad.utils.viewModelCreator
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -26,6 +30,8 @@ class CalendarFragment : Fragment(R.layout.calendar) {
     private var formattedDate: String? = null
 
     private lateinit var binding: CalendarBinding
+
+    private val viewModel by viewModelCreator { CalendarViewModel() }
 
 //    private val viewModel by viewModelCreator { BoxViewModel(getBoxId(), Repositories.boxesRepository) }
 
@@ -69,10 +75,7 @@ class CalendarFragment : Fragment(R.layout.calendar) {
                     formattedDate = getDataOnClick(date)
                 }
                 (System.currentTimeMillis() - firstSelectTime <= DOUBLE_CLICK_TIME_DELTA) && (formattedDate == getDataOnClick(date))  -> {
-                    val t = v.id
                     // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
-                   showAlertDialog()
-
                     // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
                     firstSelectTime = 0
                     formattedDate = getDataOnClick(date)
@@ -117,7 +120,6 @@ class CalendarFragment : Fragment(R.layout.calendar) {
                 }
             }
             .setNegativeButton("Отмена") { dialog, id ->
-                // User cancelled the dialog
             }
         builder.show()
     }
