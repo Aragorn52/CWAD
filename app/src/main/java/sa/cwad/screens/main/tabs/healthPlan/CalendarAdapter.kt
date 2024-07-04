@@ -8,7 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.databinding.CalendarCellBinding
 
-typealias OnItemListener = (position: Int, dayText: String) -> Unit
+
+//typealias OnItemListener = (position: Int, dayText: String) -> Unit
+interface OnItemListener {
+    fun onItemClick(position: Int, dayText: String): Unit
+}
 
 class CalendarAdapter(
     private val dayOfMonth: List<String>,
@@ -24,22 +28,27 @@ class CalendarAdapter(
         )
         val layoutParams = binding.root.layoutParams
         layoutParams.height = (parent.height * 0.166666666).toInt()
-        return CalendarViewHolder(binding, onItemListener)
+        return CalendarViewHolder(binding)
     }
 
     override fun getItemCount(): Int = dayOfMonth.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         holder.dayOfMonth.text = dayOfMonth[position]
+        holder.bind()
     }
 
     inner class CalendarViewHolder(
         binding: CalendarCellBinding,
-        private val onItemListener: OnItemListener
     ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
         val dayOfMonth: TextView = binding.cellDayText
+
+        fun bind() {
+            itemView.setOnClickListener(this)
+        }
+
         override fun onClick(v: View) {
-            onItemListener.invoke(adapterPosition, dayOfMonth.text.toString())
+            onItemListener.onItemClick(adapterPosition, dayOfMonth.text.toString())
         }
 
     }
