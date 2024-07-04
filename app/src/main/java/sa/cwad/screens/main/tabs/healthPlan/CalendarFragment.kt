@@ -5,20 +5,25 @@ import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.CalendarView
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import sa.cwad.R
 import sa.cwad.databinding.CalendarBinding
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 class CalendarFragment : Fragment(R.layout.calendar) {
 
-    private var handler: Handler? = null
-    private var runnable: Runnable? = null
     private var firstSelectTime: Long = 0
-    private var doubleSelectTimeDelta: Long = 500 // Задержка в миллисекундах между двумя выборами для определения двойного выбора
+    private var secondSelectTime: Long = 0
+    private val DOUBLE_CLICK_TIME_DELTA = 500
+    private var formattedDate: String? = null
 
     private lateinit var binding: CalendarBinding
 
@@ -54,26 +59,48 @@ class CalendarFragment : Fragment(R.layout.calendar) {
     }
 
     fun listen() {
-        binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            if (handler != null && runnable != null) {
-                handler!!.removeCallbacks(runnable!!)
-            }
-            firstSelectTime = System.currentTimeMillis()
+        binding.calendarView.setOnDateChangeListener { v, year, month, dayOfMonth ->
+            val date = createDate(year, month, dayOfMonth)
 
-            runnable = object : Runnable {
-                override fun run() {
-                    if (System.currentTimeMillis() - firstSelectTime <= doubleSelectTimeDelta) {
-                        // Обработка двойного выбора
-                        showAlertDialog()
-                    } else {
-                        // Обработка обычного выбора
-                    }
+            when {
+                firstSelectTime == 0L -> {
+                    // Первый выбор даты
+                    firstSelectTime = System.currentTimeMillis()
+                    formattedDate = getDataOnClick(date)
+                }
+                (System.currentTimeMillis() - firstSelectTime <= DOUBLE_CLICK_TIME_DELTA) && (formattedDate == getDataOnClick(date))  -> {
+                    val t = v.id
+                    // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
+                   showAlertDialog()
+
+                    // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
+                    firstSelectTime = 0
+                    formattedDate = getDataOnClick(date)
+                }
+                else -> {
+                    // Обычный выбор даты
+                    Log.d("Single Click", "Одиночный клик по дате $year-$month-$dayOfMonth")
+
+                    // Сброс времени первого выбора, если это не был двойной клик
+                    firstSelectTime = 0
+                    formattedDate = getDataOnClick(date)
                 }
             }
-            handler = Handler(Looper.getMainLooper())
-            handler!!.postDelayed(runnable!!, doubleSelectTimeDelta.toLong())
         }
 
+    }
+
+    private fun createDate(year: Int, month: Int, dayOfMonth: Int): Date? {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month - 1) // Месяцы в Calendar начинаются с 0
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        return calendar.time
+    }
+    private fun getDataOnClick(date: Date?): String {
+        val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        return dateFormat.format(date)
     }
 
     private fun showAlertDialog() {
