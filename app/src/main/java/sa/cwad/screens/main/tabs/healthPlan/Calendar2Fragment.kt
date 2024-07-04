@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter
 
 class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
 
-
     private lateinit var binding: Calendar2Binding
     private lateinit var selectedDate: LocalDate
 
@@ -85,9 +84,9 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onItemClick(position: Int, dayText: String) {
-        if (dayText == "") {
-            val message = "Selected day " + dayText + monthYearFromDate(selectedDate)
+    override fun invoke(position: Int, dayText: String) {
+        if (dayText != "") {
+            val message = "Selected day " + dayText + " " + monthYearFromDate(selectedDate)
             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         }
     }
