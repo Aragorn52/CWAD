@@ -8,5 +8,14 @@
         android:id="@+id/calendar2Fragment"
         android:name="sa.cwad.screens.main.tabs.healthPlan.Calendar2Fragment"
         android:label="calendar2"
-        tools:layout="@layout/calendar2" />
+        tools:layout="@layout/calendar2" >
+        <action
+            android:id="@+id/action_calendar2Fragment_to_weekFragment"
+            app:destination="@id/weekFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weekFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.WeekFragment"
+        android:label="week_fragment"
+        tools:layout="@layout/week_fragment" />
 </navigation>

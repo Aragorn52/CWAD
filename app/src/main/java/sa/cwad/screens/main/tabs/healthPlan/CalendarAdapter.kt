@@ -1,18 +1,22 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
+import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.databinding.CalendarCellBinding
+import java.time.LocalDate
 
 
 typealias OnItemListener = (position: Int, dayText: String) -> Unit
 
 class CalendarAdapter(
-    private val dayOfMonth: List<String>,
+    private val days: List<LocalDate?>,
     private val onItemListener: OnItemListener
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
@@ -24,14 +28,29 @@ class CalendarAdapter(
             false
         )
         val layoutParams = binding.root.layoutParams
-        layoutParams.height = (parent.height * 0.166666666).toInt()
+        if (days.size > 15) {
+            layoutParams.height = (parent.height * 0.166666666).toInt()
+        } else {
+            layoutParams.height = parent.height
+        }
         return CalendarViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = dayOfMonth.size
+    override fun getItemCount(): Int = days.size
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        holder.dayOfMonth.text = dayOfMonth[position]
+        val date = days[position]
+        if (date == null) {
+            holder.dayOfMonth.text = ""
+        } else {
+            holder.dayOfMonth.text = date.dayOfMonth.toString()
+            if (date == CalendarUtils.selectedDate) {
+                holder.patentView.setBackgroundColor(Color.LTGRAY)
+            } else {
+                holder.patentView.setBackgroundColor(Color.WHITE)
+            }
+        }
         holder.bind()
     }
 
@@ -39,6 +58,7 @@ class CalendarAdapter(
         binding: CalendarCellBinding,
     ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
         val dayOfMonth: TextView = binding.cellDayText
+        val patentView = binding.parentView
 
         fun bind() {
             itemView.setOnClickListener(this)

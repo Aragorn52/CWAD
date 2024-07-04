@@ -5,9 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="sa.cwad.screens.main.tabs.healthPlan.Calendar2Fragment">
+    tools:context="sa.cwad.screens.main.tabs.healthPlan.WeekFragment">
     <Button
-        android:id="@+id/weekly"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -126,9 +125,25 @@
             android:textColor="@color/gray"
             android:textSize="16sp" />
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/newEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/new_event"
+        android:textColor="@color/blue"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/white"
+        android:textSize="20sp" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
 
 </LinearLayout>

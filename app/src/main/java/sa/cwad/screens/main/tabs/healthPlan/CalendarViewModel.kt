@@ -1,5 +1,7 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,6 +22,7 @@ import java.util.Locale
 
 class CalendarViewModel() : ViewModel() {
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun daysInMonthList(date: LocalDate): List<String> {
 
         val daysInMonthList = mutableListOf<String>()
@@ -42,6 +45,7 @@ class CalendarViewModel() : ViewModel() {
         return daysInMonthList
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun monthYearFromDate(date: LocalDate): String {
         val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
         return dateFormat.format(date)
