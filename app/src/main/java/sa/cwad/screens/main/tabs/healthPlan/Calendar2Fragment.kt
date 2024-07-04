@@ -12,6 +12,7 @@ import sa.cwad.databinding.Calendar2Binding
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
 
@@ -24,11 +25,11 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         binding = Calendar2Binding.bind(view)
         selectedDate = LocalDate.now()
         setMonthView()
-        binding.backMonth.setOnClickListener{
+        binding.backMonth.setOnClickListener {
             selectedDate = selectedDate.minusMonths(1)
             setMonthView()
         }
-        binding.nextMonth.setOnClickListener{
+        binding.nextMonth.setOnClickListener {
             selectedDate = selectedDate.plusMonths(1)
             setMonthView()
         }
@@ -53,21 +54,25 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         val daysInMonth = yearMonth.lengthOfMonth()
         val firstOfMonth = selectedDate.withDayOfMonth(1)
         val dayOfWeek = firstOfMonth.dayOfWeek.value
-        for (i in 1..42) {
+        for (i in 2..43) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthList.add("")
             } else {
-                //TODO this
                 val day = i - dayOfWeek
                 daysInMonthList.add(day.toString())
             }
         }
+        if (daysInMonthList[6] == "") {
+            daysInMonthList.removeIf { it == "" }
+        }
+
         return daysInMonthList
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun monthYearFromDate(date: LocalDate): String {
-        val dateFormat = DateTimeFormatter.ofPattern("MMMM yyyy")
+        val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
+        val t = dateFormat.format(date)
         return dateFormat.format(date)
     }
 

@@ -17,5 +17,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.25"/>
 
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="7sp"
+        android:text="моя тестовая заметка тест снова тестирую заметку(ну хотя бы ее длину отображения) глянем как че тут будет"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/cellDayText"
+        app:layout_constraintStart_toStartOf="@id/cellDayText"
+        app:layout_constraintEnd_toEndOf="@id/cellDayText"
+        app:layout_constraintVertical_bias="0.25"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

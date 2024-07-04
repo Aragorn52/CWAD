@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="sa.cwad.screens.main.tabs.healthPlan.Calendar2Fragment">
 
     <LinearLayout
@@ -15,6 +15,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:backgroundTint="@color/white"
             android:id="@+id/backMonth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
             android:textSize="20sp" />
 
         <Button
+            android:backgroundTint="@color/white"
             android:id="@+id/nextMonth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -54,7 +56,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SUN"
+            android:text="ПНД"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -63,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="MON"
+            android:text="ВТ"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -72,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TUE"
+            android:text="СР"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -81,7 +83,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="WED"
+            android:text="ЧТВ"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -90,7 +92,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="THUR"
+            android:text="ПТ"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -99,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="FRI"
+            android:text="СБ"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
@@ -108,7 +110,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="SAT"
+            android:text="ВС"
             android:textAlignment="center"
             android:textColor="@color/gray"
             android:textSize="16sp" />
