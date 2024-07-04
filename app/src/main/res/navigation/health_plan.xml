@@ -3,11 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/health_plan"
-    app:startDestination="@id/calendarFragment">
-
+    app:startDestination="@id/calendar2Fragment">
     <fragment
-        android:id="@+id/calendarFragment"
-        android:name="sa.cwad.screens.main.tabs.healthPlan.CalendarFragment"
-        android:label="calendar"
-        tools:layout="@layout/calendar" />
+        android:id="@+id/calendar2Fragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.Calendar2Fragment"
+        android:label="calendar2"
+        tools:layout="@layout/calendar2" />
 </navigation>
