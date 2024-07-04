@@ -4,8 +4,8 @@
     <item android:id="@id/dashboard"
         android:title="@string/dashboard"
         android:icon="@drawable/ic_dashboard"/>
-    <item android:id="@id/settings"
-        android:title="@string/settings"
+    <item android:id="@id/health_plan"
+        android:title="Состояние здоровья"
         android:icon="@drawable/ic_settings" />
     <item android:id="@id/profile"
         android:title="@string/profile"
