@@ -2,7 +2,9 @@ package sa.cwad.screens.main.tabs.healthPlan
 
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -27,11 +29,22 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
     private var formattedDate: String? = null
 
     @RequiresApi(Build.VERSION_CODES.O)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = WeekFragmentBinding.inflate(layoutInflater)
+        setWeekView()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ) = binding.root
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = WeekFragmentBinding.bind(view)
         CalendarUtils.selectedDate = LocalDate.now()
-        setWeekView()
         nextWeekAction()
         previousWeekAction()
         setEventAdapter()
@@ -53,8 +66,8 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
 
         val calendarAdapter = CalendarAdapter(days, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
-        binding.calendarRecyclerView.layoutManager = layoutManager
         binding.calendarRecyclerView.adapter = calendarAdapter
+        binding.calendarRecyclerView.layoutManager = layoutManager
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

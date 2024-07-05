@@ -8,22 +8,6 @@
     tools:context="sa.cwad.screens.main.tabs.healthPlan.WeekFragment">
 
     <Button
-        android:id="@+id/weekly"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Weekly"
-        android:textColor="@color/blue"
-        android:backgroundTint="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="1dp"
-        android:textSize="20sp"
-        />
-
-    <Button
         android:id="@+id/back"
         app:layout_constraintTop_toBottomOf="@id/weekly"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,8 +95,7 @@
             android:layout_weight="1"
             android:text="ПТ"
             android:textAlignment="center"
-            android:textColor="@color/gray"
-            android:textSize="16sp" />
+            android:textColor="@color/gray"/>
 
         <TextView
             android:layout_width="0dp"
@@ -139,9 +122,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dayOfWeekLL"
         app:layout_constraintBottom_toTopOf="@id/newEventBT"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_width="0dp"
-        android:layout_height="150dp"/>
+        android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/newEventBT"
@@ -149,13 +132,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:text="@string/new_event"
         android:textColor="@color/blue"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="2dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
-        android:textSize="20sp" />
+        android:textSize="10sp" />
 
     <ListView
         app:layout_constraintStart_toStartOf="parent"
