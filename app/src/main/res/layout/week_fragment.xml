@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     android:background="@color/white"
     tools:context="sa.cwad.screens.main.tabs.healthPlan.WeekFragment">
     <Button
@@ -38,7 +39,7 @@
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:text="Feb 2021"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -129,8 +130,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="150dp"/>
 
     <Button
         android:id="@+id/newEventBT"
@@ -147,6 +147,6 @@
         android:id="@+id/eventsListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"/>
+        android:layout_weight="1"/>
 
 </LinearLayout>
