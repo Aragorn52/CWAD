@@ -25,8 +25,8 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/back"
             android:backgroundTint="@color/white"
-            android:id="@+id/backMonth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,7 +46,7 @@
 
         <Button
             android:backgroundTint="@color/white"
-            android:id="@+id/nextMonth"
+            android:id="@+id/next"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -133,15 +133,18 @@
         android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/newEvent"
+        android:id="@+id/newEventBT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_event"
         android:textColor="@color/blue"
+        android:layout_marginTop="30dp"
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
         android:textSize="20sp" />
+
     <ListView
+        android:id="@+id/eventsListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"/>

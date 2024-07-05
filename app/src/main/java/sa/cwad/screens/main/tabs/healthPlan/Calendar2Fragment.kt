@@ -66,32 +66,35 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun invoke(position: Int, dayText: String) {
-        val date = dayText + " " + CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        if (dayText != "") {
+    override fun invoke(position: Int, date: LocalDate?) {
+        CalendarUtils.selectedDate = date!!
+//        val date = date + " " + CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
+        if (date != null) {
+            CalendarUtils.selectedDate = date
+            setMonthView()
             when {
-                firstSelectTime == 0L -> {
-                    // Первый выбор даты
-                    firstSelectTime = System.currentTimeMillis()
-                    formattedDate = date
-                }
-
-                (System.currentTimeMillis() - firstSelectTime <= doubleClickTime) && (formattedDate == date) -> {
-                    // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
-                    val message = "Selected day " + dayText + " " + CalendarUtils.monthYearFromDate(
-                        CalendarUtils.selectedDate
-                    )
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                    // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
-                    firstSelectTime = 0
-                    formattedDate = date
-                }
-
-                else -> {
-                    // Сброс времени первого выбора, если это не был двойной клик
-                    firstSelectTime = 0
-                    formattedDate = date
-                }
+//                firstSelectTime == 0L -> {
+//                    // Первый выбор даты
+//                    firstSelectTime = System.currentTimeMillis()
+//                    formattedDate = date
+//                }
+//
+//                (System.currentTimeMillis() - firstSelectTime <= doubleClickTime) && (formattedDate == date) -> {
+//                    // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
+//                    val message = "Selected day " + dayText + " " + CalendarUtils.monthYearFromDate(
+//                        CalendarUtils.selectedDate
+//                    )
+//                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+//                    // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
+//                    firstSelectTime = 0
+//                    formattedDate = date
+//                }
+//
+//                else -> {
+//                    // Сброс времени первого выбора, если это не был двойной клик
+//                    firstSelectTime = 0
+//                    formattedDate = date
+//                }
             }
         }
     }

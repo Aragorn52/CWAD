@@ -17,5 +17,14 @@
         android:id="@+id/weekFragment"
         android:name="sa.cwad.screens.main.tabs.healthPlan.WeekFragment"
         android:label="week_fragment"
-        tools:layout="@layout/week_fragment" />
+        tools:layout="@layout/week_fragment" >
+        <action
+            android:id="@+id/action_weekFragment_to_eventEditFragment"
+            app:destination="@id/eventEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventEditFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.EventEditFragment"
+        android:label="event_edit_fragment"
+        tools:layout="@layout/event_edit_fragment" />
 </navigation>

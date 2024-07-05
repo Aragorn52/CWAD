@@ -13,7 +13,7 @@ import sa.cwad.databinding.CalendarCellBinding
 import java.time.LocalDate
 
 
-typealias OnItemListener = (position: Int, dayText: String) -> Unit
+typealias OnItemListener = (position: Int, date: LocalDate?) -> Unit
 
 class CalendarAdapter(
     private val days: List<LocalDate?>,
@@ -40,32 +40,32 @@ class CalendarAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        val date = days[position]
-        if (date == null) {
-            holder.dayOfMonth.text = ""
-        } else {
-            holder.dayOfMonth.text = date.dayOfMonth.toString()
-            if (date == CalendarUtils.selectedDate) {
-                holder.patentView.setBackgroundColor(Color.LTGRAY)
-            } else {
-                holder.patentView.setBackgroundColor(Color.WHITE)
-            }
-        }
-        holder.bind()
+
+        holder.bind(days[position])
     }
 
     inner class CalendarViewHolder(
         binding: CalendarCellBinding,
     ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
-        val dayOfMonth: TextView = binding.cellDayText
-        val patentView = binding.parentView
-
-        fun bind() {
+        private val day: TextView = binding.cellDayText
+        private val patentView = binding.parentView
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(date: LocalDate?) {
+            if (date == null) {
+                day.text = ""
+            } else {
+                day.text = date.dayOfMonth.toString()
+                if (date == CalendarUtils.selectedDate) {
+                    patentView.setBackgroundColor(Color.LTGRAY)
+                } else {
+                    patentView.setBackgroundColor(Color.WHITE)
+                }
+            }
             itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
-            onItemListener.invoke(adapterPosition, dayOfMonth.text.toString())
+            onItemListener.invoke(adapterPosition, days[adapterPosition])
         }
 
     }

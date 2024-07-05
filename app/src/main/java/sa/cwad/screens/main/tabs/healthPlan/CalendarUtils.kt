@@ -4,6 +4,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -64,7 +65,21 @@ class CalendarUtils {
         @RequiresApi(Build.VERSION_CODES.O)
         fun monthYearFromDate(date: LocalDate): String {
             val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
+//            return date.format(dateFormat)
             return dateFormat.format(date)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun formattedDate(date: LocalDate): String {
+            val dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("ru"))
+            return date.format(dateFormat)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun formattedTime(time: LocalTime): String {
+            val timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale("ru"))
+            return time.format(timeFormat)
+//            return dateFormat.format(time)
         }
     }
 }

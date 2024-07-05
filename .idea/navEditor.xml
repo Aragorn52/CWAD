@@ -72,6 +72,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="eventEditFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="560" />
+                            <option name="y" value="-138" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="weekFragment">
                     <value>
                       <LayoutPositions>
@@ -80,6 +92,15 @@
                             <option name="x" value="303" />
                             <option name="y" value="42" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_weekFragment_to_eventEditFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

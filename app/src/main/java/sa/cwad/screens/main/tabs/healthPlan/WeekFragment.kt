@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
 import sa.cwad.databinding.Calendar2Binding
@@ -21,7 +22,6 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
 //    private val viewModel by viewModelCreator { CalendarViewModel() }
 
     private lateinit var binding: WeekFragmentBinding
-    private lateinit var selectedDate: LocalDate
     private var firstSelectTime: Long = 0
     private val doubleClickTime = 500
     private var formattedDate: String? = null
@@ -30,16 +30,26 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = WeekFragmentBinding.bind(view)
-        selectedDate = LocalDate.now()
+        CalendarUtils.selectedDate = LocalDate.now()
         setWeekView()
-        previousMonthAction()
-        nextMonthAction()
+        nextWeekAction()
+        previousWeekAction()
+        setEventAdapter()
+        binding.newEventBT.setOnClickListener {
+            findNavController().navigate(R.id.action_weekFragment_to_eventEditFragment)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onResume() {
+        setEventAdapter()
+        super.onResume()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setWeekView() {
-        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(selectedDate)
-        val days = CalendarUtils.daysInWeekList(selectedDate)
+        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
+        val days = CalendarUtils.daysInWeekList(CalendarUtils.selectedDate)
 
         val calendarAdapter = CalendarAdapter(days, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
@@ -48,47 +58,31 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun previousMonthAction() {
-        binding.backMonth.setOnClickListener {
-            selectedDate = selectedDate.minusWeeks(1)
+    private fun previousWeekAction() {
+        binding.back.setOnClickListener {
+            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1)
             setWeekView()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun nextMonthAction() {
-        binding.nextMonth.setOnClickListener {
-            selectedDate = selectedDate.plusWeeks(1)
+    private fun nextWeekAction() {
+        binding.next.setOnClickListener {
+            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1)
             setWeekView()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun invoke(position: Int, dayText: String) {
-        val date = dayText + " " + CalendarUtils.monthYearFromDate(selectedDate)
-        if (dayText != "") {
-            when {
-                firstSelectTime == 0L -> {
-                    // Первый выбор даты
-                    firstSelectTime = System.currentTimeMillis()
-                    formattedDate = date
-                }
+    override fun invoke(position: Int, date: LocalDate?) {
+        CalendarUtils.selectedDate = date!!
+        setWeekView()
+    }
 
-                (System.currentTimeMillis() - firstSelectTime <= doubleClickTime) && (formattedDate == date) -> {
-                    // Время между двумя выборами меньше заданной задержки, считаем это двойным кликом
-                    val message = "Selected day " + dayText + " " + CalendarUtils.monthYearFromDate(selectedDate)
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                    // Сброс времени первого выбора, чтобы готовиться к следующему двойному клику
-                    firstSelectTime = 0
-                    formattedDate = date
-                }
-
-                else -> {
-                    // Сброс времени первого выбора, если это не был двойной клик
-                    firstSelectTime = 0
-                    formattedDate = date
-                }
-            }
-        }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun setEventAdapter() {
+        val dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate)
+        val eventAdapter = EventAdapter(requireContext(), dailyEvents)
+        binding.eventsListView.adapter = eventAdapter
     }
 }
