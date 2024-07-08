@@ -70,6 +70,13 @@ class CalendarUtils {
         }
 
         @RequiresApi(Build.VERSION_CODES.O)
+        fun monthDayFromDate(date: LocalDate): String {
+            val dateFormat = DateTimeFormatter.ofPattern("MMM d", Locale("ru"))
+//            return date.format(dateFormat)
+            return dateFormat.format(date)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
         fun formattedDate(date: LocalDate): String {
             val dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("ru"))
             return date.format(dateFormat)
@@ -78,6 +85,13 @@ class CalendarUtils {
         @RequiresApi(Build.VERSION_CODES.O)
         fun formattedTime(time: LocalTime): String {
             val timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale("ru"))
+            return time.format(timeFormat)
+//            return dateFormat.format(time)
+        }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun formattedShortTime(time: LocalTime): String {
+            val timeFormat = DateTimeFormatter.ofPattern("HH:mm", Locale("ru"))
             return time.format(timeFormat)
 //            return dateFormat.format(time)
         }

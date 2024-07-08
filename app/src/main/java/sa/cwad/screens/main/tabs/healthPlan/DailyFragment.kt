@@ -14,10 +14,13 @@ import sa.cwad.R
 import sa.cwad.databinding.Calendar2Binding
 import sa.cwad.databinding.DailyFragmentBinding
 import sa.cwad.databinding.WeekFragmentBinding
+import sa.cwad.screens.main.tabs.healthPlan.CalendarUtils.Companion.selectedDate
 import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.util.Locale
 
 class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
@@ -33,7 +36,7 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DailyFragmentBinding.inflate(layoutInflater)
-        setWeekView()
+        setDayView()
     }
 
     override fun onCreateView(
@@ -45,10 +48,10 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CalendarUtils.selectedDate = LocalDate.now()
-        nextWeekAction()
-        previousWeekAction()
-        setEventAdapter()
+        selectedDate = LocalDate.now()
+        nextDayAction()
+        previousDayAction()
+        setHourAdapter()
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_weekFragment_to_eventEditFragment)
         }
@@ -56,47 +59,56 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
-        setEventAdapter()
         super.onResume()
+        setDayView()
+        setHourAdapter()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setWeekView() {
-        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val days = CalendarUtils.daysInWeekList(CalendarUtils.selectedDate)
-
-        val calendarAdapter = CalendarAdapter(days, this)
-        val layoutManager = GridLayoutManager(requireContext(), 7)
-        binding.calendarRecyclerView.adapter = calendarAdapter
-        binding.calendarRecyclerView.layoutManager = layoutManager
+    private fun setDayView() {
+        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
+        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.dayOfWeekTV.text = dayOfWeek
+        setHourAdapter()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun previousWeekAction() {
+    private fun previousDayAction() {
         binding.back.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1)
-            setWeekView()
+            selectedDate = selectedDate.minusDays(1)
+            setDayView()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun nextWeekAction() {
+    private fun nextDayAction() {
         binding.next.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1)
-            setWeekView()
+            selectedDate = selectedDate.plusDays(1)
+            setDayView()
         }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun invoke(position: Int, date: LocalDate?) {
-        CalendarUtils.selectedDate = date!!
-        setWeekView()
+        selectedDate = date!!
+        setDayView()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun setEventAdapter() {
-        val dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate)
-        val eventAdapter = EventAdapter(requireContext(), dailyEvents)
-        binding.eventsListView.adapter = eventAdapter
+    fun setHourAdapter() {
+        val adapter = HourEventAdapter(requireContext(), hourEventsList())
+        binding.hourListView.adapter = adapter
+    }
+
+    private fun hourEventsList(): List<HourEvent> {
+
+        val list = mutableListOf<HourEvent>()
+        for (i in 0..24) {
+            val time = LocalTime.of(i, 0)
+            val events = Event.eventsForDateAndTime(selectedDate, time)
+            val hourEvent = HourEvent(time, events)
+            list.add(hourEvent)
+        }
+        return list
     }
 }
