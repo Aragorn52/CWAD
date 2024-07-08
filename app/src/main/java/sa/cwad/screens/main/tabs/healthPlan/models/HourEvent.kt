@@ -1,5 +1,6 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.models
 
+import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import java.time.LocalTime
 
 data class HourEvent(

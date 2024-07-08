@@ -39,7 +39,7 @@ class CalendarUtils {
             return daysInMonthList
         }
 
-        fun daysInWeekList(date: LocalDate): List<LocalDate?> {
+        fun daysInWeekList(): List<LocalDate?> {
             val days = mutableListOf<LocalDate?>()
             var current = sundayForDate(selectedDate)
             val endDate = current?.plusWeeks(1)

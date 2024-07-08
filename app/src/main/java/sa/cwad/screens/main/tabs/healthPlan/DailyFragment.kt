@@ -5,21 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
-import sa.cwad.databinding.Calendar2Binding
 import sa.cwad.databinding.DailyFragmentBinding
-import sa.cwad.databinding.WeekFragmentBinding
 import sa.cwad.screens.main.tabs.healthPlan.CalendarUtils.Companion.selectedDate
-import sa.cwad.utils.viewModelCreator
+import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -44,7 +39,6 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
         savedInstanceState: Bundle?
     ) = binding.root
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         selectedDate = LocalDate.now()

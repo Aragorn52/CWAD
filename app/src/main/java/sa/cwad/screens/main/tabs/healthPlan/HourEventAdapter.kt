@@ -1,14 +1,14 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
 import android.content.Context
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import sa.cwad.R
+import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 import java.time.LocalTime
 
 class HourEventAdapter(

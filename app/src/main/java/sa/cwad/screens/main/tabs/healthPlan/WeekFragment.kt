@@ -1,23 +1,16 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
-import sa.cwad.databinding.Calendar2Binding
 import sa.cwad.databinding.WeekFragmentBinding
-import sa.cwad.utils.viewModelCreator
+import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
 
@@ -61,7 +54,7 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
 
     private fun setWeekView() {
         binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val days = CalendarUtils.daysInWeekList(CalendarUtils.selectedDate)
+        val days = CalendarUtils.daysInWeekList()
 
         val calendarAdapter = CalendarAdapter(days, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
@@ -88,7 +81,7 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         setWeekView()
     }
 
-    fun setEventAdapter() {
+    private fun setEventAdapter() {
         val dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate)
         val eventAdapter = EventAdapter(requireContext(), dailyEvents)
         binding.eventsListView.adapter = eventAdapter
