@@ -1,39 +1,32 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
-import sa.cwad.databinding.Calendar2Binding
-import sa.cwad.utils.viewModelCreator
+import sa.cwad.databinding.FragmentMonthBinding
 import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
-class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
+class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
 
 //    private val viewModel by viewModelCreator { CalendarViewModel() }
 
-    private lateinit var binding: Calendar2Binding
+    private lateinit var binding: FragmentMonthBinding
     private var firstSelectTime: Long = 0
     private val doubleClickTime = 500
     private var formattedDate: String? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = Calendar2Binding.bind(view)
+        binding = FragmentMonthBinding.bind(view)
         CalendarUtils.selectedDate = LocalDate.now()
         setMonthView()
         previousMonthAction()
         nextMonthAction()
         binding.weekly.setOnClickListener {
-            findNavController().navigate(R.id.action_calendar2Fragment_to_weekFragment)
+            findNavController().navigate(R.id.action_monthFragment_to_weekFragment)
         }
     }
 

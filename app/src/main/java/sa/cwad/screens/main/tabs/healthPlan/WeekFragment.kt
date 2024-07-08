@@ -8,22 +8,22 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
-import sa.cwad.databinding.WeekFragmentBinding
+import sa.cwad.databinding.FragmentWeekBinding
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import java.time.LocalDate
 
-class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
+class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
 
 //    private val viewModel by viewModelCreator { CalendarViewModel() }
 
-    private lateinit var binding: WeekFragmentBinding
+    private lateinit var binding: FragmentWeekBinding
     private var firstSelectTime: Long = 0
     private val doubleClickTime = 500
     private var formattedDate: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = WeekFragmentBinding.inflate(layoutInflater)
+        binding = FragmentWeekBinding.inflate(layoutInflater)
         setWeekView()
     }
 
