@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
-import sa.cwad.screens.main.tabs.healthPlan.CalendarUtils.Companion.selectedDate
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.TextStyle
+import java.util.Locale
 
 
 class DailyFragment : Fragment(R.layout.fragment_daily) {
@@ -47,6 +48,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //        nextDayAction()
 //        previousDayAction()
         setHourAdapter()
+//        showDay()
+
 //        setHourAdapter()
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
@@ -84,6 +87,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //        setDayView()
 //    }
 
+//    private fun showDay() {
+//        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
+//        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+//        binding.dayOfWeekTV.text = dayOfWeek
+//    }
+
     private fun setHourAdapter() {
 //        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
 //        val daysInMonth = CalendarUtils.daysInMonthList()
@@ -97,32 +106,36 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //                events = mutableListOf()
 //            )
 //        )
-        val layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-        layoutManager.scrollToPositionWithOffset(15, 0);
-        val snapHelper: SnapHelper = PagerSnapHelper()
+//        val calendarAdapter = DailyAdapter(hourEventsListForDate(CalendarUtils.selectedDate))
+//        val layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+//        layoutManager.scrollToPositionWithOffset(15, 0);
+//        val snapHelper: SnapHelper = PagerSnapHelper()
+
+
 
         binding.recyclerView.apply {
-            layoutManager.scrollToPositionWithOffset(15, 0);
-            val layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-            val snapHelper: SnapHelper = PagerSnapHelper()
-            setLayoutManager(layoutManager)
+            val calendarAdapter = DailyAdapter(hourEventsListForDate(CalendarUtils.selectedDate))
             adapter = calendarAdapter
+            val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = manager
+
+            val snapHelper: SnapHelper = PagerSnapHelper()
+            manager.scrollToPositionWithOffset(15, 0);
             onFlingListener = null
             snapHelper.attachToRecyclerView(binding.recyclerView)
-        }
-
-        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dx > 0) {
-                    selectedDate.plusDays(1)
-                    println("Прокрутка вправо")
-                } else if (dx < 0) {
-                    selectedDate.minusDays(1)
-                    println("Прокрутка влево")
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    if (dx > 0) {
+                        selectedDate.plusDays(1)
+                        println("Прокрутка вправо")
+                    } else if (dx < 0) {
+                        selectedDate.minusDays(1)
+                        println("Прокрутка влево")
+                    }
                 }
-            }
         })
+        }
     }
 
     private fun hourEventsListForDate(date: LocalDate): List<HourEvent> {
