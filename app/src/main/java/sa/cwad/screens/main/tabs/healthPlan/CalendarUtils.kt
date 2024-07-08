@@ -1,7 +1,5 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
@@ -13,23 +11,29 @@ class CalendarUtils {
     companion object {
         lateinit var selectedDate: LocalDate
 
-        fun daysInMonthList(date: LocalDate): MutableList<LocalDate?> {
+        fun daysInMonthList(): MutableList<LocalDate?> {
 
             val daysInMonthList = mutableListOf<LocalDate?>()
-            val yearMonth = YearMonth.from(date)
+
+            val yearMonth = YearMonth.from(selectedDate)
             val daysInMonth = yearMonth.lengthOfMonth()
-            val firstOfMonth = date.withDayOfMonth(1)
+
+            val prevMonth = selectedDate.minusMonths(1)
+            val nextMonth = selectedDate.plusMonths(1)
+
+            val prevYearMonth = YearMonth.from(prevMonth)
+            val prevDaysInMonth = prevYearMonth.lengthOfMonth()
+
+            val firstOfMonth = selectedDate.withDayOfMonth(1)
             val dayOfWeek = firstOfMonth.dayOfWeek.value
             for (i in 2..43) {
-                if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
-                    daysInMonthList.add(null)
+                if (i <= dayOfWeek) {
+                    daysInMonthList.add(LocalDate.of(prevMonth.year, prevMonth.month, prevDaysInMonth + i - dayOfWeek))
+                } else if (i > daysInMonth + dayOfWeek) {
+                    daysInMonthList.add(LocalDate.of(nextMonth.year, nextMonth.month, i - dayOfWeek - daysInMonth))
                 } else {
-                    val day = i - dayOfWeek
-                    daysInMonthList.add(LocalDate.of(selectedDate.year, selectedDate.month, day))
+                    daysInMonthList.add(LocalDate.of(selectedDate.year, selectedDate.month, i - dayOfWeek))
                 }
-            }
-            if (daysInMonthList[6] == null) {
-                daysInMonthList.removeIf { it == null }
             }
 
             return daysInMonthList
@@ -39,10 +43,10 @@ class CalendarUtils {
             val days = mutableListOf<LocalDate?>()
             var current = sundayForDate(selectedDate)
             val endDate = current?.plusWeeks(1)
-                while (current!!.isBefore(endDate)) {
-                    days.add(current)
-                    current = current.plusDays(1)
-                }
+            while (current!!.isBefore(endDate)) {
+                days.add(current)
+                current = current.plusDays(1)
+            }
             return days
         }
 

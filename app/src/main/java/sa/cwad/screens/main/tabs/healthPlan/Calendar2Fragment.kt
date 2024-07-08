@@ -39,7 +39,7 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
 
     private fun setMonthView() {
         binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val daysInMonth = CalendarUtils.daysInMonthList(CalendarUtils.selectedDate)
+        val daysInMonth = CalendarUtils.daysInMonthList()
 
         val calendarAdapter = CalendarAdapter(daysInMonth, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)

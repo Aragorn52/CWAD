@@ -37,7 +37,6 @@ class CalendarAdapter(
 
     override fun getItemCount(): Int = days.size
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
 
         holder.bind(days[position])
@@ -48,17 +47,15 @@ class CalendarAdapter(
     ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
         private val day: TextView = binding.cellDayText
         private val patentView = binding.parentView
-        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(date: LocalDate?) {
-            if (date == null) {
-                day.text = ""
+            day.text = date!!.dayOfMonth.toString()
+            if (date == CalendarUtils.selectedDate) {
+                patentView.setBackgroundColor(Color.LTGRAY)
+            }
+            if (date.month == CalendarUtils.selectedDate.month) {
+                day.setTextColor(Color.BLACK)
             } else {
-                day.text = date.dayOfMonth.toString()
-                if (date == CalendarUtils.selectedDate) {
-                    patentView.setBackgroundColor(Color.LTGRAY)
-                } else {
-                    patentView.setBackgroundColor(Color.WHITE)
-                }
+                day.setTextColor(Color.LTGRAY)
             }
             itemView.setOnClickListener(this)
         }
