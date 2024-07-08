@@ -62,12 +62,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //        setHourAdapter()
 //    }
 
-//    private fun setDayView() {
-////        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
-////        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-////        binding.dayOfWeekTV.text = dayOfWeek
-//        setHourAdapter()
-//    }
+    private fun setDayView() {
+//        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
+//        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+//        binding.dayOfWeekTV.text = dayOfWeek
+        setHourAdapter()
+    }
 
 //    private fun previousDayAction() {
 //        binding.back.setOnClickListener {
@@ -115,22 +115,25 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             layoutManager = manager
 
             val snapHelper: SnapHelper = PagerSnapHelper()
-            manager.scrollToPositionWithOffset(15, 0);
+            manager.scrollToPositionWithOffset(15, 0)
             onFlingListener = null
             snapHelper.attachToRecyclerView(binding.recyclerView)
 
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 var lastVisibleItemPosition = -1
+
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
 
                     val currentFirstVisibleItemPosition = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
                     if (currentFirstVisibleItemPosition == lastVisibleItemPosition + 1) {
                         plusDay()
+                        (adapter as DailyAdapter).changeList(hourEventsListForDate())
                     }
 
                     if (currentFirstVisibleItemPosition == lastVisibleItemPosition - 1) {
                         minusDay()
+                        (adapter as DailyAdapter).changeList(hourEventsListForDate())
                     }
                     lastVisibleItemPosition = currentFirstVisibleItemPosition
                 }
