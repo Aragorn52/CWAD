@@ -1,6 +1,5 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -16,50 +15,24 @@ class DailyAdapter(
             parent,
             false
         )
-//        val layoutParams = binding.root.layoutParams
-//        if (days.size > 15) {
-//            layoutParams.height = (parent.height * 0.166666666).toInt()
-//        } else {
-//            layoutParams.height = parent.height
-//        }
         return DailyViewHolder(binding)
     }
-
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun replay(item: List<HourEvent>) {
-//        hourEvents = item
-//        notifyDataSetChanged()
-//    }
 
     override fun getItemCount(): Int = 30
 
     override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
 
-        holder.bind()
+        holder.bind(position)
     }
 
     inner class DailyViewHolder(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind() {
-            val adapter = HourEventAdapter(binding.root.context, hourEvents)
-            binding.hourListView.adapter = adapter
-//            day.text = date!!.dayOfMonth.toString()
-//            if (date == CalendarUtils.selectedDate) {
-//                patentView.setBackgroundColor(Color.LTGRAY)
-//            }
-//            if (date.month == CalendarUtils.selectedDate.month) {
-//                day.setTextColor(Color.BLACK)
-//            } else {
-//                day.setTextColor(Color.LTGRAY)
-//            }
-//            itemView.setOnClickListener(this)
+        fun bind(positionNew: Int) {
+            binding.hourListView.adapter = HourEventAdapter(binding.root.context, hourEvents)
         }
-
-//        override fun onClick(v: View) {
-//            onItemListener.invoke(adapterPosition, days[adapterPosition])
+//            if(positionNew != position)
+//            binding.hourListView.adapter = hourAdapter
 //        }
-
     }
 }

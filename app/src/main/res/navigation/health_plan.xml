@@ -29,7 +29,11 @@
         android:id="@+id/eventEditFragment"
         android:name="sa.cwad.screens.main.tabs.healthPlan.EventEditFragment"
         android:label="event_edit_fragment"
-        tools:layout="@layout/event_edit_fragment" />
+        tools:layout="@layout/event_edit_fragment" >
+        <action
+            android:id="@+id/action_eventEditFragment_to_dailyFragment"
+            app:destination="@id/dailyFragment" />
+    </fragment>
     <fragment
         android:id="@+id/dailyFragment"
         android:name="sa.cwad.screens.main.tabs.healthPlan.DailyFragment"

@@ -32,7 +32,7 @@ class EventEditFragment : Fragment(R.layout.event_edit_fragment) {
             val eventName = binding.eventNameET.text.toString()
             val newEvent = Event(eventName, CalendarUtils.selectedDate, time)
             Event.eventsList.add(newEvent)
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_eventEditFragment_to_dailyFragment)
         }
     }
 }

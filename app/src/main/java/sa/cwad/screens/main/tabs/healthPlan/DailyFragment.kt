@@ -48,7 +48,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //        nextDayAction()
 //        previousDayAction()
         setHourAdapter()
-//        showDay()
+        showDay(selectedDate)
 
 //        setHourAdapter()
         binding.newEventBT.setOnClickListener {
@@ -87,63 +87,63 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 //        setDayView()
 //    }
 
-//    private fun showDay() {
-//        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
-//        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-//        binding.dayOfWeekTV.text = dayOfWeek
-//    }
+    private fun showDay(date: LocalDate) {
+        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(date)
+        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.dayOfWeekTV.text = dayOfWeek
+    }
+
+    private fun plusDay() {
+        selectedDate = selectedDate.plusDays(1)
+        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
+        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.dayOfWeekTV.text = dayOfWeek
+    }
+
+    private fun minusDay() {
+        selectedDate = selectedDate.minusDays(1)
+        binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
+        val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+        binding.dayOfWeekTV.text = dayOfWeek
+    }
 
     private fun setHourAdapter() {
-//        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-//        val daysInMonth = CalendarUtils.daysInMonthList()
-
-//        val adapter = HourEventAdapter(requireContext(), hourEventsList())
-//        binding.hourListView.adapter = adapter
-
-//        val list = mutableListOf(
-//            HourEvent(
-//                time = LocalTime.now(),
-//                events = mutableListOf()
-//            )
-//        )
-//        val calendarAdapter = DailyAdapter(hourEventsListForDate(CalendarUtils.selectedDate))
-//        val layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
-//        layoutManager.scrollToPositionWithOffset(15, 0);
-//        val snapHelper: SnapHelper = PagerSnapHelper()
-
-
 
         binding.recyclerView.apply {
-            val calendarAdapter = DailyAdapter(hourEventsListForDate(CalendarUtils.selectedDate))
-            adapter = calendarAdapter
-            val manager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL, false)
+            adapter = DailyAdapter(hourEventsListForDate())
+            val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             layoutManager = manager
 
             val snapHelper: SnapHelper = PagerSnapHelper()
             manager.scrollToPositionWithOffset(15, 0);
             onFlingListener = null
             snapHelper.attachToRecyclerView(binding.recyclerView)
+
             addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                var lastVisibleItemPosition = -1
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    if (dx > 0) {
-                        selectedDate.plusDays(1)
-                        println("Прокрутка вправо")
-                    } else if (dx < 0) {
-                        selectedDate.minusDays(1)
-                        println("Прокрутка влево")
+
+                    val currentFirstVisibleItemPosition = (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    if (currentFirstVisibleItemPosition == lastVisibleItemPosition + 1) {
+                        plusDay()
                     }
+
+                    if (currentFirstVisibleItemPosition == lastVisibleItemPosition - 1) {
+                        minusDay()
+                    }
+                    lastVisibleItemPosition = currentFirstVisibleItemPosition
                 }
-        })
+            })
         }
     }
 
-    private fun hourEventsListForDate(date: LocalDate): List<HourEvent> {
+    private fun hourEventsListForDate(): List<HourEvent> {
 
         val list = mutableListOf<HourEvent>()
         for (i in 0..23) {
             val time = LocalTime.of(i, 0)
-            val events = Event.eventsForDateAndTime(date, time)
+            val events = Event.eventsForDateAndTime(selectedDate, time)
             val hourEvent = HourEvent(time, events)
             list.add(hourEvent)
         }

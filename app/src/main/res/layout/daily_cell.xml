@@ -6,60 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <Button
-        android:id="@+id/back"
-        app:layout_constraintTop_toTopOf="@id/monthDayTV"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/backMonth"
-        android:textColor="@color/blue"
-        android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/next"
-        app:layout_constraintTop_toTopOf="@id/monthDayTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/nextMonth"
-        android:textColor="@color/blue"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/monthDayTV"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        tools:text="Feb 2021"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/dayOfWeekTV"
-        app:layout_constraintTop_toBottomOf="@id/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        tools:text="Сегодня"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/hourListView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dayOfWeekTV"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="0dp"
         android:layout_height="0dp" />
 
