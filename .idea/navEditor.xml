@@ -51,34 +51,13 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="calendar2Fragment">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="54" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_calendar2Fragment_to_weekFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
                   <entry key="dailyFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="460" />
-                            <option name="y" value="368" />
+                            <option name="x" value="599" />
+                            <option name="y" value="37" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -89,9 +68,30 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="460" />
-                            <option name="y" value="12" />
+                            <option name="x" value="335" />
+                            <option name="y" value="-286" />
                           </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="monthFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="40" />
+                            <option name="y" value="40" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_monthFragment_to_weekFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -101,8 +101,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="236" />
-                            <option name="y" value="54" />
+                            <option name="x" value="337" />
+                            <option name="y" value="43" />
                           </Point>
                         </option>
                         <option name="myPositions">

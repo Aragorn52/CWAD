@@ -7,57 +7,16 @@
     android:background="@color/white"
     tools:context="sa.cwad.screens.main.tabs.healthPlan.DailyFragment">
 
-    <Button
-        android:id="@+id/back"
-        app:layout_constraintTop_toTopOf="@id/monthDayTV"
-        app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/backMonth"
-        android:textColor="@color/blue"
-        android:textSize="20sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"/>
 
-    <Button
-        android:id="@+id/next"
-        app:layout_constraintTop_toTopOf="@id/monthDayTV"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/nextMonth"
-        android:textColor="@color/blue"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/monthDayTV"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:text="Feb 2021"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/dayOfWeekTV"
-        app:layout_constraintTop_toBottomOf="@id/back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Сегодня"
-        android:textAlignment="center"
-        android:textColor="@color/gray"
-        android:textSize="16sp" />
 
     <Button
         android:id="@+id/newEventBT"
-        app:layout_constraintTop_toBottomOf="@id/dayOfWeekTV"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
@@ -68,123 +27,5 @@
         android:layout_gravity="center"
         android:backgroundTint="@color/white"
         android:textSize="20sp" />
-
-    <ListView
-        android:id="@+id/hourListView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/newEventBT"
-        android:layout_width="0dp"
-        android:layout_height="0dp" />
-
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/dayOfWeekLL"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/monthYearTV"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal">-->
-
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="ПНД"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="ВТ"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="СР"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="ЧТВ"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="ПТ"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="СБ"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-
-<!--        <TextView-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="ВС"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textColor="@color/gray"-->
-<!--            android:textSize="16sp" />-->
-<!--    </LinearLayout>-->
-
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/calendarRecyclerView"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/dayOfWeekLL"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/newEventBT"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="150dp"/>-->
-
-<!--    <Button-->
-<!--        android:id="@+id/newEventBT"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/calendarRecyclerView"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="@string/new_event"-->
-<!--        android:textColor="@color/blue"-->
-<!--        android:layout_marginTop="30dp"-->
-<!--        android:layout_gravity="center"-->
-<!--        android:backgroundTint="@color/white"-->
-<!--        android:textSize="20sp" />-->
-
-<!--    <ListView-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/newEventBT"-->
-<!--        android:id="@+id/eventsListView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
