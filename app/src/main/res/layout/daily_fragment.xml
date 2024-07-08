@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    tools:context="sa.cwad.screens.main.tabs.healthPlan.WeekFragment">
+    tools:context="sa.cwad.screens.main.tabs.healthPlan.DailyFragment">
 
     <Button
         android:id="@+id/back"
@@ -14,7 +14,6 @@
         android:backgroundTint="@color/white"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padto="10dp"
         android:text="@string/backMonth"
         android:textColor="@color/blue"
         android:textSize="20sp" />

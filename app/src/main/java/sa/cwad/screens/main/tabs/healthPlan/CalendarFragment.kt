@@ -52,14 +52,14 @@ class CalendarFragment : Fragment(R.layout.calendar) {
 //        listenShouldExitEvent()
     }
 
-    fun saveNote(date: String, note: String) {
+    private fun saveNote(date: String, note: String) {
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(date, note)
         editor.apply()
     }
 
-    fun loadNotes(): MutableMap<String, *>? {
+    private fun loadNotes(): MutableMap<String, *>? {
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.all
     }

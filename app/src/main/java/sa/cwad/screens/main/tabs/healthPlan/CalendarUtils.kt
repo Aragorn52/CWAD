@@ -11,10 +11,8 @@ import java.util.Locale
 
 class CalendarUtils {
     companion object {
-        @RequiresApi(Build.VERSION_CODES.O)
         lateinit var selectedDate: LocalDate
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun daysInMonthList(date: LocalDate): MutableList<LocalDate?> {
 
             val daysInMonthList = mutableListOf<LocalDate?>()
@@ -37,7 +35,6 @@ class CalendarUtils {
             return daysInMonthList
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun daysInWeekList(date: LocalDate): List<LocalDate?> {
             val days = mutableListOf<LocalDate?>()
             var current = sundayForDate(selectedDate)
@@ -49,7 +46,6 @@ class CalendarUtils {
             return days
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         private fun sundayForDate(currentInit: LocalDate): LocalDate? {
             var current = currentInit
             val oneWeekAgo = current.minusWeeks(1)
@@ -62,38 +58,29 @@ class CalendarUtils {
             return null
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun monthYearFromDate(date: LocalDate): String {
             val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
-//            return date.format(dateFormat)
-            return dateFormat.format(date)
+            return date.format(dateFormat)
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun monthDayFromDate(date: LocalDate): String {
             val dateFormat = DateTimeFormatter.ofPattern("MMM d", Locale("ru"))
-//            return date.format(dateFormat)
-            return dateFormat.format(date)
+            return date.format(dateFormat)
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun formattedDate(date: LocalDate): String {
             val dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy", Locale("ru"))
             return date.format(dateFormat)
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun formattedTime(time: LocalTime): String {
             val timeFormat = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale("ru"))
             return time.format(timeFormat)
-//            return dateFormat.format(time)
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
         fun formattedShortTime(time: LocalTime): String {
             val timeFormat = DateTimeFormatter.ofPattern("HH:mm", Locale("ru"))
             return time.format(timeFormat)
-//            return dateFormat.format(time)
         }
     }
 }

@@ -21,10 +21,22 @@
         <action
             android:id="@+id/action_weekFragment_to_eventEditFragment"
             app:destination="@id/eventEditFragment" />
+        <action
+            android:id="@+id/action_weekFragment_to_dailyFragment"
+            app:destination="@id/dailyFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventEditFragment"
         android:name="sa.cwad.screens.main.tabs.healthPlan.EventEditFragment"
         android:label="event_edit_fragment"
         tools:layout="@layout/event_edit_fragment" />
+    <fragment
+        android:id="@+id/dailyFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.DailyFragment"
+        android:label="daily_fragment"
+        tools:layout="@layout/daily_fragment" >
+        <action
+            android:id="@+id/action_dailyFragment_to_eventEditFragment"
+            app:destination="@id/eventEditFragment" />
+    </fragment>
 </navigation>

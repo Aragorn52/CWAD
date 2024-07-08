@@ -25,7 +25,7 @@ class HourEventAdapter(
         }
 
         setHour(convertViewNew!!, event!!.time)
-        setEvents(convertViewNew)
+        setEvents(convertViewNew, event.events)
 
         return convertViewNew
     }

@@ -32,7 +32,6 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
     private val doubleClickTime = 500
     private var formattedDate: String? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DailyFragmentBinding.inflate(layoutInflater)
@@ -53,18 +52,16 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
         previousDayAction()
         setHourAdapter()
         binding.newEventBT.setOnClickListener {
-            findNavController().navigate(R.id.action_weekFragment_to_eventEditFragment)
+            findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         setDayView()
         setHourAdapter()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setDayView() {
         binding.monthDayTV.text = CalendarUtils.monthDayFromDate(selectedDate)
         val dayOfWeek = selectedDate.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
@@ -72,7 +69,6 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
         setHourAdapter()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun previousDayAction() {
         binding.back.setOnClickListener {
             selectedDate = selectedDate.minusDays(1)
@@ -80,7 +76,6 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun nextDayAction() {
         binding.next.setOnClickListener {
             selectedDate = selectedDate.plusDays(1)
@@ -88,14 +83,12 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun invoke(position: Int, date: LocalDate?) {
         selectedDate = date!!
         setDayView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun setHourAdapter() {
+    private fun setHourAdapter() {
         val adapter = HourEventAdapter(requireContext(), hourEventsList())
         binding.hourListView.adapter = adapter
     }
@@ -103,7 +96,7 @@ class DailyFragment : Fragment(R.layout.daily_fragment), OnItemListener {
     private fun hourEventsList(): List<HourEvent> {
 
         val list = mutableListOf<HourEvent>()
-        for (i in 0..24) {
+        for (i in 0..23) {
             val time = LocalTime.of(i, 0)
             val events = Event.eventsForDateAndTime(selectedDate, time)
             val hourEvent = HourEvent(time, events)

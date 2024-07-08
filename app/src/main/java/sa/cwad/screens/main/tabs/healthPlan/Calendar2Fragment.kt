@@ -25,7 +25,6 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
     private val doubleClickTime = 500
     private var formattedDate: String? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = Calendar2Binding.bind(view)
@@ -38,7 +37,6 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setMonthView() {
         binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
         val daysInMonth = CalendarUtils.daysInMonthList(CalendarUtils.selectedDate)
@@ -49,7 +47,6 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         binding.calendarRecyclerView.adapter = calendarAdapter
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun previousMonthAction() {
         binding.backMonth.setOnClickListener {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1)
@@ -57,7 +54,6 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun nextMonthAction() {
         binding.nextMonth.setOnClickListener {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1)
@@ -65,7 +61,6 @@ class Calendar2Fragment : Fragment(R.layout.calendar2), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun invoke(position: Int, date: LocalDate?) {
         CalendarUtils.selectedDate = date!!
 //        val date = date + " " + CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)

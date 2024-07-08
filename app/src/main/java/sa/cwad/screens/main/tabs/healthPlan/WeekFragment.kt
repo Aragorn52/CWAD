@@ -28,7 +28,6 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
     private val doubleClickTime = 500
     private var formattedDate: String? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = WeekFragmentBinding.inflate(layoutInflater)
@@ -41,7 +40,6 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         savedInstanceState: Bundle?
     ) = binding.root
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CalendarUtils.selectedDate = LocalDate.now()
@@ -51,15 +49,16 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_weekFragment_to_eventEditFragment)
         }
+        binding.dailyBNT.setOnClickListener {
+            findNavController().navigate(R.id.action_weekFragment_to_dailyFragment)
+        }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         setEventAdapter()
         super.onResume()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setWeekView() {
         binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
         val days = CalendarUtils.daysInWeekList(CalendarUtils.selectedDate)
@@ -70,7 +69,6 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         binding.calendarRecyclerView.layoutManager = layoutManager
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun previousWeekAction() {
         binding.back.setOnClickListener {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1)
@@ -78,7 +76,6 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun nextWeekAction() {
         binding.next.setOnClickListener {
             CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1)
@@ -86,13 +83,11 @@ class WeekFragment : Fragment(R.layout.week_fragment), OnItemListener {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun invoke(position: Int, date: LocalDate?) {
         CalendarUtils.selectedDate = date!!
         setWeekView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun setEventAdapter() {
         val dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate)
         val eventAdapter = EventAdapter(requireContext(), dailyEvents)
