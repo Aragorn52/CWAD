@@ -20,7 +20,6 @@ class CalendarAdapter(
     private val onItemListener: OnItemListener
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val binding = CalendarCellBinding.inflate(
             LayoutInflater.from(parent.context),
