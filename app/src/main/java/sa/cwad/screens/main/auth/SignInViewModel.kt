@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sa.model.AuthException
-import sa.model.EmptyFieldException
-import sa.model.Field
+import sa.cwad.model.AuthException
+import sa.cwad.model.EmptyFieldException
+import sa.cwad.model.Field
 import sa.model.accounts.AccountsRepository
 import sa.cwad.utils.MutableUnitLiveEvent
 import sa.cwad.utils.publishEvent

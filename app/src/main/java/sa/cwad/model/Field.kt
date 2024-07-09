@@ -1,4 +1,4 @@
-package sa.model
+package sa.cwad.model
 
 enum class Field {
     Email,

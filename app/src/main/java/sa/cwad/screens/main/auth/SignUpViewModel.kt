@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sa.cwad.R
-import sa.model.AccountAlreadyExistsException
-import sa.model.EmptyFieldException
-import sa.model.Field
-import sa.model.PasswordMismatchException
+import sa.cwad.model.AccountAlreadyExistsException
+import sa.cwad.model.EmptyFieldException
+import sa.cwad.model.Field
+import sa.cwad.model.PasswordMismatchException
 import sa.model.accounts.AccountsRepository
 import sa.model.accounts.entities.SignUpData
 import sa.cwad.utils.MutableUnitLiveEvent

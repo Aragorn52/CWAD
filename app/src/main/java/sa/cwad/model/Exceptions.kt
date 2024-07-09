@@ -1,4 +1,4 @@
-package sa.model
+package sa.cwad.model
 
 open class AppException : RuntimeException()
 
@@ -9,5 +9,4 @@ class EmptyFieldException(
 class PasswordMismatchException : AppException()
 
 class AccountAlreadyExistsException : AppException()
-
 class AuthException : AppException()

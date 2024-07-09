@@ -1,10 +1,10 @@
 package sa.model.accounts
 
 import kotlinx.coroutines.flow.Flow
-import sa.model.AccountAlreadyExistsException
-import sa.model.AuthException
-import sa.model.EmptyFieldException
-import sa.model.PasswordMismatchException
+import sa.cwad.model.AccountAlreadyExistsException
+import sa.cwad.model.AuthException
+import sa.cwad.model.EmptyFieldException
+import sa.cwad.model.PasswordMismatchException
 import sa.model.accounts.entities.Account
 import sa.model.accounts.entities.SignUpData
 

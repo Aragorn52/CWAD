@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import sa.model.EmptyFieldException
+import sa.cwad.model.EmptyFieldException
 import sa.model.accounts.AccountsRepository
 import sa.cwad.utils.MutableLiveEvent
 import sa.cwad.utils.MutableUnitLiveEvent
