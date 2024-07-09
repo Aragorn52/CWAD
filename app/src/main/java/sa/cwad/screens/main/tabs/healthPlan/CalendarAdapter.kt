@@ -16,6 +16,7 @@ import java.time.LocalDate
 typealias OnItemListener = (position: Int, date: LocalDate?) -> Unit
 
 class CalendarAdapter(
+    private val selectedDate: LocalDate,
     private val days: List<LocalDate?>,
     private val onItemListener: OnItemListener
 ) : RecyclerView.Adapter<CalendarAdapter.CalendarViewHolder>() {
@@ -49,10 +50,10 @@ class CalendarAdapter(
         private val patentView = binding.parentView
         fun bind(date: LocalDate?) {
             day.text = date!!.dayOfMonth.toString()
-            if (date == CalendarUtils.selectedDate) {
+            if (date == selectedDate) {
                 patentView.setBackgroundColor(Color.LTGRAY)
             }
-            if (date.month == CalendarUtils.selectedDate.month) {
+            if (date.month == selectedDate.month) {
                 day.setTextColor(Color.BLACK)
             } else {
                 day.setTextColor(Color.LTGRAY)

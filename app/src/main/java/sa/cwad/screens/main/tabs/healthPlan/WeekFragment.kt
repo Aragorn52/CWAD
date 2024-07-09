@@ -56,7 +56,7 @@ class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
         binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
         val days = CalendarUtils.daysInWeekList()
 
-        val calendarAdapter = CalendarAdapter(days, this)
+        val calendarAdapter = CalendarAdapter(CalendarUtils.selectedDate, days, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         binding.calendarRecyclerView.adapter = calendarAdapter
         binding.calendarRecyclerView.layoutManager = layoutManager

@@ -7,11 +7,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import sa.cwad.R
 import sa.cwad.databinding.FragmentMonthBinding
+import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
 
 class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
 
-//    private val viewModel by viewModelCreator { CalendarViewModel() }
+    private val viewModel by viewModelCreator { CalendarViewModel() }
 
     private lateinit var binding: FragmentMonthBinding
     private var firstSelectTime: Long = 0
@@ -21,7 +22,6 @@ class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMonthBinding.bind(view)
-        CalendarUtils.selectedDate = LocalDate.now()
         setMonthView()
         previousMonthAction()
         nextMonthAction()
@@ -31,10 +31,10 @@ class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
     }
 
     private fun setMonthView() {
-        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val daysInMonth = CalendarUtils.daysInMonthList()
+        binding.monthYearTV.text = viewModel.monthYearFromDate(viewModel.date)
+        val daysInMonth = viewModel.daysInMonthList()
 
-        val calendarAdapter = CalendarAdapter(daysInMonth, this)
+        val calendarAdapter = CalendarAdapter(viewModel.date, daysInMonth, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         binding.calendarRecyclerView.layoutManager = layoutManager
         binding.calendarRecyclerView.adapter = calendarAdapter
@@ -42,23 +42,23 @@ class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
 
     private fun previousMonthAction() {
         binding.backMonth.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1)
+            viewModel.date = viewModel.date.minusMonths(1)
             setMonthView()
         }
     }
 
     private fun nextMonthAction() {
         binding.nextMonth.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1)
+            viewModel.date = viewModel.date.plusMonths(1)
             setMonthView()
         }
     }
 
     override fun invoke(position: Int, date: LocalDate?) {
-        CalendarUtils.selectedDate = date!!
+        viewModel.date = date!!
 //        val date = date + " " + CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
         if (date != null) {
-            CalendarUtils.selectedDate = date
+            viewModel.date = date
             setMonthView()
             when {
 //                firstSelectTime == 0L -> {
