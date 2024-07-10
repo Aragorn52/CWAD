@@ -8,6 +8,7 @@ import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 
 class DailyAdapter(
+    private val datePresenter: DatePresenter,
     private var hourEvents: List<HourEvent>,
 ) : RecyclerView.Adapter<DailyAdapter.DailyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
@@ -36,7 +37,7 @@ class DailyAdapter(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind() {
-            binding.hourListView.adapter = HourEventAdapter(binding.root.context, hourEvents)
+            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, hourEvents)
         }
     }
 }

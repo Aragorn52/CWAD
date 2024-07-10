@@ -9,6 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.Repositories
 import sa.cwad.databinding.ActivityMainBinding
@@ -19,6 +20,7 @@ import java.util.regex.Pattern
 /**
  * Container for all screens in the app.
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     // view-model is used for observing username to be displayed in the toolbar

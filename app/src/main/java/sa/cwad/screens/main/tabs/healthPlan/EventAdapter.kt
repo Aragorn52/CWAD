@@ -10,7 +10,7 @@ import sa.cwad.R
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
 
 class EventAdapter(
-    context: Context, events: List<Event>
+    private val datePresenter: DatePresenter, context: Context, events: List<Event>
 ) : ArrayAdapter<Event>(context, 0, events) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -22,7 +22,7 @@ class EventAdapter(
                 LayoutInflater.from(context).inflate(R.layout.event_cell, parent, false)
         }
         val eventCellTV = convertViewNew?.findViewById<TextView>(R.id.eventCellTV)
-        val eventTitle = event?.name + " " + CalendarUtils.formattedTime(event!!.time)
+        val eventTitle = event?.name + " " + datePresenter.formattedTime(event!!.time)
         eventCellTV?.text = eventTitle
         return convertViewNew!!
     }

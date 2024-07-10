@@ -3,10 +3,8 @@ package sa.cwad.screens.main.tabs.healthPlan
 import androidx.lifecycle.ViewModel
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
-class CalendarViewModel : ViewModel() {
+class MonthViewModel : ViewModel() {
 
     var date: LocalDate = LocalDate.now()
 
@@ -27,19 +25,26 @@ class CalendarViewModel : ViewModel() {
         val dayOfWeek = firstOfMonth.dayOfWeek.value
         for (i in 2..43) {
             if (i <= dayOfWeek) {
-                daysInMonthList.add(LocalDate.of(prevMonth.year, prevMonth.month, prevDaysInMonth + i - dayOfWeek))
+                daysInMonthList.add(
+                    LocalDate.of(
+                        prevMonth.year,
+                        prevMonth.month,
+                        prevDaysInMonth + i - dayOfWeek
+                    )
+                )
             } else if (i > daysInMonth + dayOfWeek) {
-                daysInMonthList.add(LocalDate.of(nextMonth.year, nextMonth.month, i - dayOfWeek - daysInMonth))
+                daysInMonthList.add(
+                    LocalDate.of(
+                        nextMonth.year,
+                        nextMonth.month,
+                        i - dayOfWeek - daysInMonth
+                    )
+                )
             } else {
                 daysInMonthList.add(LocalDate.of(date.year, date.month, i - dayOfWeek))
             }
         }
 
         return daysInMonthList
-    }
-
-    fun monthYearFromDate(date: LocalDate): String {
-        val dateFormat = DateTimeFormatter.ofPattern("MMM yyyy", Locale("ru"))
-        return date.format(dateFormat)
     }
 }

@@ -12,6 +12,7 @@ import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 import java.time.LocalTime
 
 class HourEventAdapter(
+    private val datePresenter: DatePresenter,
     context: Context, hourEvents: List<HourEvent>
 ) : ArrayAdapter<HourEvent>(context, 0, hourEvents) {
 
@@ -32,7 +33,7 @@ class HourEventAdapter(
 
     private fun setHour(convertViewNew: View, time: LocalTime) {
         val timeTv = convertViewNew.findViewById<TextView>(R.id.timeTV)
-        timeTv.text = CalendarUtils.formattedShortTime(time)
+        timeTv.text = datePresenter.formattedShortTime(time)
     }
 
     private fun setEvents(convertViewNew: View, events: List<Event>) {

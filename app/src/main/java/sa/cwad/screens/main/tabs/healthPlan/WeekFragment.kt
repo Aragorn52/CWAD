@@ -7,19 +7,29 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentWeekBinding
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
 
-//    private val viewModel by viewModelCreator { CalendarViewModel() }
+    private val viewModel by viewModelCreator { WeekViewModel() }
 
     private lateinit var binding: FragmentWeekBinding
     private var firstSelectTime: Long = 0
     private val doubleClickTime = 500
     private var formattedDate: String? = null
+
+    @Inject
+    lateinit var datePresenter: DatePresenter
+
+    @Inject
+    lateinit var eventService: EventService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +45,6 @@ class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CalendarUtils.selectedDate = LocalDate.now()
         nextWeekAction()
         previousWeekAction()
         setEventAdapter()
@@ -53,10 +62,10 @@ class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
     }
 
     private fun setWeekView() {
-        binding.monthYearTV.text = CalendarUtils.monthYearFromDate(CalendarUtils.selectedDate)
-        val days = CalendarUtils.daysInWeekList()
+        binding.monthYearTV.text = datePresenter.monthYearFromDate(viewModel.date)
+        val days = viewModel.daysInWeekList()
 
-        val calendarAdapter = CalendarAdapter(CalendarUtils.selectedDate, days, this)
+        val calendarAdapter = CalendarAdapter(viewModel.date, days, this)
         val layoutManager = GridLayoutManager(requireContext(), 7)
         binding.calendarRecyclerView.adapter = calendarAdapter
         binding.calendarRecyclerView.layoutManager = layoutManager
@@ -64,26 +73,26 @@ class WeekFragment : Fragment(R.layout.fragment_week), OnItemListener {
 
     private fun previousWeekAction() {
         binding.back.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1)
+            viewModel.date = viewModel.date.minusWeeks(1)
             setWeekView()
         }
     }
 
     private fun nextWeekAction() {
         binding.next.setOnClickListener {
-            CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1)
+            viewModel.date = viewModel.date.plusWeeks(1)
             setWeekView()
         }
     }
 
     override fun invoke(position: Int, date: LocalDate?) {
-        CalendarUtils.selectedDate = date!!
+        viewModel.date = date!!
         setWeekView()
     }
 
     private fun setEventAdapter() {
-        val dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate)
-        val eventAdapter = EventAdapter(requireContext(), dailyEvents)
+        val dailyEvents = eventService.eventsForDate(viewModel.date)
+        val eventAdapter = EventAdapter(datePresenter, requireContext(), dailyEvents)
         binding.eventsListView.adapter = eventAdapter
     }
 }

@@ -5,14 +5,19 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentMonthBinding
 import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
 
-    private val viewModel by viewModelCreator { CalendarViewModel() }
+    private val viewModel by viewModelCreator { MonthViewModel() }
+
+    @Inject lateinit var datePresenter: DatePresenter
 
     private lateinit var binding: FragmentMonthBinding
     private var firstSelectTime: Long = 0
@@ -31,7 +36,7 @@ class MonthFragment : Fragment(R.layout.fragment_month), OnItemListener {
     }
 
     private fun setMonthView() {
-        binding.monthYearTV.text = viewModel.monthYearFromDate(viewModel.date)
+        binding.monthYearTV.text = datePresenter.monthYearFromDate(viewModel.date)
         val daysInMonth = viewModel.daysInMonthList()
 
         val calendarAdapter = CalendarAdapter(viewModel.date, daysInMonth, this)
