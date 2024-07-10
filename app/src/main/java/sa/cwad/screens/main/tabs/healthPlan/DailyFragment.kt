@@ -95,6 +95,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             })
 
         }
-        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(binding.recyclerView, true))
+        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 300F))
     }
 }
