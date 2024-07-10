@@ -14,11 +14,8 @@ import androidx.recyclerview.widget.SnapHelper
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
-import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
-import sa.cwad.utils.viewModelCreator
+import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyAdapter
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.TextStyle
 import java.util.Locale
 import javax.inject.Inject

@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentWeekBinding
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.screens.main.tabs.healthPlan.adapters.CalendarAdapter
+import sa.cwad.screens.main.tabs.healthPlan.adapters.EventAdapter
+import sa.cwad.screens.main.tabs.healthPlan.adapters.OnItemListener
 import sa.cwad.utils.viewModelCreator
 import java.time.LocalDate
 import javax.inject.Inject

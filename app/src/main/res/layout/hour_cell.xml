@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
+    android:background="@drawable/rectangle_hint"
     android:layout_height="60dp">
 
     <TextView
@@ -17,6 +18,7 @@
         tools:text="10:00"/>
 
     <LinearLayout
+        android:layout_margin="5dp"
         android:background="@color/light_gray"
         android:orientation="horizontal"
         android:layout_width="match_parent"

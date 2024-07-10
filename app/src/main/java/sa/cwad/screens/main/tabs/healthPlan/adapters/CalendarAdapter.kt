@@ -1,17 +1,13 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.adapters
 
 import android.graphics.Color
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.databinding.CalendarCellBinding
 import java.time.LocalDate
-
 
 typealias OnItemListener = (position: Int, date: LocalDate?) -> Unit
 
@@ -45,7 +41,7 @@ class CalendarAdapter(
 
     inner class CalendarViewHolder(
         binding: CalendarCellBinding,
-    ) : RecyclerView.ViewHolder(binding.root), OnClickListener {
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener {
         private val day: TextView = binding.cellDayText
         private val patentView = binding.parentView
         fun bind(date: LocalDate?) {
