@@ -1,0 +1,147 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить запись"
+        android:textSize="24sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Систолическое"
+                android:padding="8dp"/>
+            <EditText
+                android:id="@+id/systolic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="mmHg"
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Диастолическое"
+                android:padding="8dp"/>
+            <EditText
+                android:id="@+id/diastolic"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="mmHg"
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Пульс"
+                android:padding="8dp"/>
+            <EditText
+                android:id="@+id/pulse"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="bpm"
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Вес"
+                android:padding="8dp"/>
+            <EditText
+                android:id="@+id/weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="kg"
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Расположение"
+                android:padding="8dp"/>
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Позиция"
+                android:padding="
+8dp"/>
+            <EditText
+                android:id="@+id/position"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:layout_weight="1"
+                android:padding="8dp"/>
+        </TableRow>
+
+    </TableLayout>
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Сохранить"
+        app:layout_constraintTop_toBottomOf="@id/tableLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+    <Button
+        android:id="@+id/cancel_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Отмена"
+        app:layout_constraintTop_toBottomOf="@id/save_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
