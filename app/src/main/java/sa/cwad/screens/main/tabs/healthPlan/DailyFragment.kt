@@ -93,6 +93,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         recyclerViewAdapter = RecyclerViewAdapter(datePresenter, rowsArrayList)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = manager
+
+        val snapHelper: SnapHelper = PagerSnapHelper()
+        recyclerView.onFlingListener = null
+        snapHelper.attachToRecyclerView(binding.recyclerView)
         manager.scrollToPositionWithOffset(1, 0)
     }
 
@@ -100,6 +104,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+
 
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
