@@ -1,6 +1,9 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyAdapter
+import sa.cwad.screens.main.tabs.healthPlan.adapters.RecyclerViewAdapter
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -32,6 +36,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var binding: FragmentDailyBinding
 
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
+    private val rowsArrayList = arrayListOf<String?>()
+
+    private var isLoading = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = FragmentDailyBinding.inflate(layoutInflater)
@@ -45,8 +55,13 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHourAdapter()
+//        setHourAdapter()
         showDay(viewModel.date)
+
+        recyclerView = binding.recyclerView
+        populateData()
+        initAdapter()
+        initScrollListener()
 
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
@@ -60,41 +75,53 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         viewModel.date = date
     }
 
-    private fun setHourAdapter() {
-
-        binding.recyclerView.apply {
-            adapter = DailyAdapter(datePresenter, viewModel.hourEventsListForDate())
-            val manager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            layoutManager = manager
-
-            val snapHelper: SnapHelper = PagerSnapHelper()
-            manager.scrollToPositionWithOffset(15, 0)
-            onFlingListener = null
-            snapHelper.attachToRecyclerView(binding.recyclerView)
-
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                var lastVisibleItemPosition = -1
-
-                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                    super.onScrolled(recyclerView, dx, dy)
-
-                    val currentFirstVisibleItemPosition =
-                        (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-                    if (currentFirstVisibleItemPosition == lastVisibleItemPosition + 1) {
-                        showDay(viewModel.date.plusDays(1))
-                        (adapter as DailyAdapter).changeList(viewModel.hourEventsListForDate())
-                    }
-
-                    if (currentFirstVisibleItemPosition == lastVisibleItemPosition - 1) {
-                        showDay(viewModel.date.minusDays(1))
-                        (adapter as DailyAdapter).changeList(viewModel.hourEventsListForDate())
-                    }
-                    lastVisibleItemPosition = currentFirstVisibleItemPosition
-                }
-            })
-
+    private fun populateData() {
+        for (i in 0 until 10) {
+            rowsArrayList.add("Item $i")
         }
-        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 300F))
+    }
+
+    private fun initAdapter() {
+        val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewAdapter = RecyclerViewAdapter(rowsArrayList)
+        recyclerView.adapter = recyclerViewAdapter
+        recyclerView.layoutManager = manager
+        manager.scrollToPositionWithOffset((rowsArrayList.size / 2), 0)
+    }
+
+    private fun initScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
+                if (!isLoading && layoutManager?.findLastCompletelyVisibleItemPosition() == rowsArrayList.size - 1) {
+                    loadMore()
+                    isLoading = true
+                }
+            }
+        })
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun loadMore() {
+        rowsArrayList.add(null)
+        recyclerViewAdapter.notifyItemInserted(rowsArrayList.size - 1)
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            rowsArrayList.removeAt(rowsArrayList.lastIndex)
+            val scrollPosition = rowsArrayList.size
+            recyclerViewAdapter.notifyItemRemoved(scrollPosition)
+            var currentSize = scrollPosition
+            val nextLimit = currentSize + 10
+
+            while (currentSize - 1 < nextLimit) {
+                rowsArrayList.add("Item $currentSize")
+                currentSize++
+            }
+
+            recyclerViewAdapter.notifyDataSetChanged()
+            isLoading = false
+        }, 0L)
     }
 }
