@@ -68,8 +68,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     }
 
     private fun populateData() {
-        var date = viewModel.date.minusDays(1)
-        for (i in 0 until 10) {
+        var date = viewModel.date.minusDays(100)
+        for (i in 0 until 201) {
 
             val element = EventForDate(
                 date,
@@ -90,7 +90,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         val snapHelper: SnapHelper = PagerSnapHelper()
         recyclerView.onFlingListener = null
         snapHelper.attachToRecyclerView(binding.recyclerView)
-        manager.scrollToPositionWithOffset(1, 0)
+        manager.scrollToPositionWithOffset(100, 0)
     }
 
     private fun initScrollListener() {
@@ -103,8 +103,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 val firstVisibleItemPosition =
                     layoutManager?.findFirstCompletelyVisibleItemPosition()
 
-                if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1 || firstVisibleItemPosition == 0)) {
-                    loadMore()
+                if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1)) {
+                    loadUpMore()
+                    isLoading = true
+                }
+                if (!isLoading && (firstVisibleItemPosition == 0)) {
+                    loadDownMore()
                     isLoading = true
                 }
             }
@@ -112,13 +116,34 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun loadMore() {
+    private fun loadUpMore() {
+        for (i in 0 until 100) {
+            val dateLast = rowsArrayList.last()!!.date
+            val actualDate = dateLast.plusDays(1)
+            rowsArrayList.add(
+                EventForDate(
+                    dateLast.plusDays(1),
+                    viewModel.hourEventsListForDate(actualDate)
+                )
+            )
+        }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+
+            recyclerViewAdapter.notifyDataSetChanged()
+            isLoading = false
+        }, 0L)
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun loadDownMore() {
+        val dateOne = rowsArrayList[0]!!.date
         // Добавляем элемент в начало списка для прокрутки влево
         rowsArrayList.add(
             index = 0,
             element = EventForDate(
-                viewModel.date.minusDays(1),
-                viewModel.hourEventsListForDate(viewModel.date.minusDays(1))
+                dateOne.minusDays(1),
+                viewModel.hourEventsListForDate(dateOne.minusDays(1))
             )
         )
 
@@ -127,23 +152,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
         // Задержка имитирует загрузку данных
         Handler(Looper.getMainLooper()).postDelayed({
-            // Удаляем временный элемент из начала списка
-            rowsArrayList.removeAt(0)
-            recyclerViewAdapter.notifyItemRemoved(0)
-
-            // Добавляем элементы в конец списка для прокрутки вправо
-            for (i in 0 until 10) {
-                viewModel.date = viewModel.date.plusDays(1)
-                rowsArrayList.add(
-                    EventForDate(
-                        viewModel.date,
-                        viewModel.hourEventsListForDate(viewModel.date)
-                    )
-                )
-            }
-
             recyclerViewAdapter.notifyDataSetChanged()
             isLoading = false
-        }, 0L) // Задержка в 500 мс
+        }, 0L)
     }
 }
