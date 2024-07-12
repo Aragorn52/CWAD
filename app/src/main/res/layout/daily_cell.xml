@@ -6,33 +6,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
-    <Button
+    <ImageButton
+        android:layout_marginStart="10dp"
         android:id="@+id/back"
         app:layout_constraintTop_toTopOf="@id/monthDayTV"
         app:layout_constraintStart_toStartOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/backMonth"
-        android:textColor="@color/blue"
-        android:textSize="20sp" />
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/left_icon_24"
+        />
 
-    <Button
+    <ImageButton
         android:id="@+id/next"
+        android:layout_marginEnd="10dp"
         app:layout_constraintTop_toTopOf="@id/monthDayTV"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/white"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/nextMonth"
-        android:textColor="@color/blue"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/right_icon_24"
         android:textSize="20sp" />
 
     <TextView
         android:id="@+id/monthDayTV"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/back"
+        app:layout_constraintEnd_toStartOf="@id/next"
         android:layout_width="0dp"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"

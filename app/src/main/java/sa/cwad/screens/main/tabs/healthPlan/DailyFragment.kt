@@ -23,6 +23,7 @@ import sa.cwad.screens.main.tabs.healthPlan.adapters.RecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class DailyFragment : Fragment(R.layout.fragment_daily) {
 
