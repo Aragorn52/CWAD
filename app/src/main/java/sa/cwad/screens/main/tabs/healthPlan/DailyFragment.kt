@@ -86,7 +86,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         recyclerViewAdapter = RecyclerViewAdapter(rowsArrayList)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = manager
-        manager.scrollToPositionWithOffset((rowsArrayList.size / 2), 0)
+        manager.scrollToPositionWithOffset(1, 0)
     }
 
     private fun initScrollListener() {
@@ -95,33 +95,36 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
-                if (!isLoading && layoutManager?.findLastCompletelyVisibleItemPosition() == rowsArrayList.size - 1) {
+                val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
+                val firstVisibleItemPosition = layoutManager?.findFirstCompletelyVisibleItemPosition()
+
+                if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1 || firstVisibleItemPosition == 0)) {
                     loadMore()
                     isLoading = true
                 }
             }
         })
     }
-
-    @SuppressLint("NotifyDataSetChanged")
     private fun loadMore() {
-        rowsArrayList.add(null)
-        recyclerViewAdapter.notifyItemInserted(rowsArrayList.size - 1)
+        // Добавляем элемент в начало списка для прокрутки влево
+        rowsArrayList.add(0, "Item ${rowsArrayList.size}")
 
+        // Уведомляем адаптер о добавлении элемента
+        recyclerViewAdapter.notifyItemInserted(0)
+
+        // Задержка имитирует загрузку данных
         Handler(Looper.getMainLooper()).postDelayed({
-            rowsArrayList.removeAt(rowsArrayList.lastIndex)
-            val scrollPosition = rowsArrayList.size
-            recyclerViewAdapter.notifyItemRemoved(scrollPosition)
-            var currentSize = scrollPosition
-            val nextLimit = currentSize + 10
+            // Удаляем временный элемент из начала списка
+            rowsArrayList.removeAt(0)
+            recyclerViewAdapter.notifyItemRemoved(0)
 
-            while (currentSize - 1 < nextLimit) {
-                rowsArrayList.add("Item $currentSize")
-                currentSize++
+            // Добавляем элементы в конец списка для прокрутки вправо
+            for (i in 0 until 10) {
+                rowsArrayList.add("Item ${rowsArrayList.size + i}")
             }
 
             recyclerViewAdapter.notifyDataSetChanged()
             isLoading = false
-        }, 0L)
+        }, 0L) // Задержка в 500 мс
     }
 }
