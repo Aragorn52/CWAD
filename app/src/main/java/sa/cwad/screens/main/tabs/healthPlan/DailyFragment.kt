@@ -2,29 +2,25 @@ package sa.cwad.screens.main.tabs.healthPlan
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
-import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyAdapter
+import sa.cwad.decorators.HorizontalSpaceItemDecoration
 import sa.cwad.screens.main.tabs.healthPlan.adapters.RecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -90,6 +86,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         val snapHelper: SnapHelper = PagerSnapHelper()
         recyclerView.onFlingListener = null
         snapHelper.attachToRecyclerView(binding.recyclerView)
+        recyclerView.addItemDecoration(HorizontalSpaceItemDecoration(16))
         manager.scrollToPositionWithOffset(100, 0)
     }
 
@@ -128,11 +125,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             )
         }
 
-        Handler(Looper.getMainLooper()).postDelayed({
-
+        CoroutineScope(Dispatchers.Main).launch {
             recyclerViewAdapter.notifyDataSetChanged()
             isLoading = false
-        }, 0L)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -151,9 +147,9 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         recyclerViewAdapter.notifyItemInserted(0)
 
         // Задержка имитирует загрузку данных
-        Handler(Looper.getMainLooper()).postDelayed({
+        CoroutineScope(Dispatchers.Main).launch {
             recyclerViewAdapter.notifyDataSetChanged()
             isLoading = false
-        }, 0L)
+        }
     }
 }
