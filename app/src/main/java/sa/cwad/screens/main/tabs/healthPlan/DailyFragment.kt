@@ -56,8 +56,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        showDay(viewModel.date)
-
         recyclerView = binding.recyclerView
         populateData()
         initAdapter()
@@ -69,15 +67,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         }
     }
 
-//    private fun showDay(date: LocalDate) {
-//        binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-//        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-//        binding.dayOfWeekTV.text = dayOfWeek
-//        viewModel.date = date
-//    }
-
     private fun populateData() {
-        var date = viewModel.date
+        var date = viewModel.date.minusDays(1)
         for (i in 0 until 10) {
 
             val element = EventForDate(
@@ -86,6 +77,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             )
             rowsArrayList.add(element)
             date = date.plusDays(1)
+            viewModel.date = date
         }
     }
 
@@ -106,7 +98,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
                 val firstVisibleItemPosition =
@@ -124,7 +115,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     private fun loadMore() {
         // Добавляем элемент в начало списка для прокрутки влево
         rowsArrayList.add(
-            0, EventForDate(
+            index = 0,
+            element = EventForDate(
                 viewModel.date.minusDays(1),
                 viewModel.hourEventsListForDate(viewModel.date.minusDays(1))
             )

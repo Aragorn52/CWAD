@@ -1,8 +1,10 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
+import sa.cwad.R
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 import java.time.DayOfWeek
@@ -28,5 +30,10 @@ class EventEditViewModel @Inject constructor(val eventService: EventService) : V
             list.add(hourEvent)
         }
         return list
+    }
+
+    fun saveEvent(eventName: String, date: LocalDate, time: LocalTime) {
+        val newEvent = Event(eventName, date, time)
+        eventService.eventsList.add(newEvent)
     }
 }

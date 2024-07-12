@@ -41,8 +41,7 @@ class EventEditFragment : Fragment(R.layout.event_edit_fragment) {
     private fun saveEvent() {
         binding.save.setOnClickListener {
             val eventName = binding.eventNameET.text.toString()
-            val newEvent = Event(eventName, viewModel.date, time)
-            eventService.eventsList.add(newEvent)
+            viewModel.saveEvent(eventName, viewModel.date, time)
             findNavController().navigate(R.id.action_eventEditFragment_to_dailyFragment)
         }
     }
