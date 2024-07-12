@@ -21,6 +21,7 @@ import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyAdapter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.RecyclerViewAdapter
+import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -38,7 +39,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: RecyclerViewAdapter
-    private val rowsArrayList = arrayListOf<String?>()
+    private val rowsArrayList = arrayListOf<EventForDate?>()
 
     private var isLoading = false
 
@@ -76,14 +77,20 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     }
 
     private fun populateData() {
+        var date = viewModel.date
         for (i in 0 until 10) {
-            rowsArrayList.add("Item $i")
+            date = date.plusDays(1)
+            val element = EventForDate(
+                date,
+                viewModel.hourEventsListForDate(date)
+            )
+            rowsArrayList.add(element)
         }
     }
 
     private fun initAdapter() {
         val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewAdapter = RecyclerViewAdapter(rowsArrayList)
+        recyclerViewAdapter = RecyclerViewAdapter(datePresenter, rowsArrayList)
         recyclerView.adapter = recyclerViewAdapter
         recyclerView.layoutManager = manager
         manager.scrollToPositionWithOffset(1, 0)
@@ -107,7 +114,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     }
     private fun loadMore() {
         // Добавляем элемент в начало списка для прокрутки влево
-        rowsArrayList.add(0, "Item ${rowsArrayList.size}")
+        rowsArrayList.add(0, EventForDate(
+            viewModel.date,
+            viewModel.hourEventsListForDate(viewModel.date)
+        ))
 
         // Уведомляем адаптер о добавлении элемента
         recyclerViewAdapter.notifyItemInserted(0)
@@ -120,7 +130,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
             // Добавляем элементы в конец списка для прокрутки вправо
             for (i in 0 until 10) {
-                rowsArrayList.add("Item ${rowsArrayList.size + i}")
+                viewModel.date = viewModel.date.plusDays(1)
+                rowsArrayList.add(EventForDate(
+                    viewModel.date,
+                    viewModel.hourEventsListForDate(viewModel.date)))
             }
 
             recyclerViewAdapter.notifyDataSetChanged()

@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
 
 class DailyAdapter(
     private val datePresenter: DatePresenter,
-    private var hourEvents: List<HourEvent>,
+    private var hourEvents: List<EventForDate>,
 ) : RecyclerView.Adapter<DailyAdapter.DailyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DailyViewHolder {
         val binding = DailyCellBinding.inflate(
@@ -23,22 +24,22 @@ class DailyAdapter(
 
     override fun getItemCount(): Int = 30
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun changeList(list: List<HourEvent>) {
-        hourEvents = list
-        notifyDataSetChanged()
-    }
+//    @SuppressLint("NotifyDataSetChanged")
+//    fun changeList(list: List<HourEvent>) {
+//        hourEvents = list
+//        notifyDataSetChanged()
+//    }
 
     override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
 
-        holder.bind()
+        holder.bind(position)
     }
 
     inner class DailyViewHolder(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, hourEvents)
+        fun bind(position: Int) {
+            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, hourEvents[position].hourEvent)
         }
     }
 }

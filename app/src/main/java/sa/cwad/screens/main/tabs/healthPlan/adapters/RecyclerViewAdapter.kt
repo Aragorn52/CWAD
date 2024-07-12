@@ -7,17 +7,28 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
+import sa.cwad.databinding.DailyCellBinding
+import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 
-class RecyclerViewAdapter(var mItemList: List<String?>?) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecyclerViewAdapter(
+    private val datePresenter: DatePresenter,
+    var mItemList: List<EventForDate?>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val binding = DailyCellBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
         if (viewType == VIEW_TYPE_ITEM) {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
-            return ItemViewHolder(view)
+//            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
+            return ItemViewHolder(binding)
         } else {
             val view =
                 LayoutInflater.from(parent.context).inflate(R.layout.item_loading, parent, false)
@@ -42,8 +53,12 @@ class RecyclerViewAdapter(var mItemList: List<String?>?) :
     }
 
 
-    private inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvItem: TextView = itemView.findViewById(R.id.tvItem)
+    private inner class ItemViewHolder(
+        val binding: DailyCellBinding,
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(position: Int) {
+            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, mItemList[position]!!.hourEvent)
+        }
     }
 
     private inner class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -56,6 +71,7 @@ class RecyclerViewAdapter(var mItemList: List<String?>?) :
 
     private fun populateItemRows(viewHolder: ItemViewHolder, position: Int) {
         val item = mItemList!![position]
-        viewHolder.tvItem.text = item
+        viewHolder.bind(position)
+//        viewHolder.tvItem.text = item
     }
 }

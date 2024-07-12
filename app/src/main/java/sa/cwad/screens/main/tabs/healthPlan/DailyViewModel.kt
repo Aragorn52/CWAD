@@ -18,12 +18,12 @@ class DailyViewModel @Inject constructor(val eventService: EventService) : ViewM
 
     var date: LocalDate = LocalDate.now()
 
-    fun hourEventsListForDate(): List<HourEvent> {
+    fun hourEventsListForDate(selectDate:LocalDate): List<HourEvent> {
 
         val list = mutableListOf<HourEvent>()
         for (i in 0..23) {
             val time = LocalTime.of(i, 0)
-            val events = eventService.eventsForDateAndTime(date, time)
+            val events = eventService.eventsForDateAndTime(selectDate, time)
             val hourEvent = HourEvent(time, events)
             list.add(hourEvent)
         }
