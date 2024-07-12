@@ -137,13 +137,13 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadDownMore() {
-        val dateOne = rowsArrayList[0]!!.date
+        val dateFirst = rowsArrayList[0]!!.date
         // Добавляем элемент в начало списка для прокрутки влево
         rowsArrayList.add(
             index = 0,
             element = EventForDate(
-                dateOne.minusDays(1),
-                viewModel.hourEventsListForDate(dateOne.minusDays(1))
+                dateFirst.minusDays(1),
+                viewModel.hourEventsListForDate(dateFirst.minusDays(1))
             )
         )
 
