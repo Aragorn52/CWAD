@@ -56,35 +56,36 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        setHourAdapter()
-        showDay(viewModel.date)
+//        showDay(viewModel.date)
 
         recyclerView = binding.recyclerView
         populateData()
         initAdapter()
         initScrollListener()
+        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 300F))
 
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
         }
     }
 
-    private fun showDay(date: LocalDate) {
-        binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-        binding.dayOfWeekTV.text = dayOfWeek
-        viewModel.date = date
-    }
+//    private fun showDay(date: LocalDate) {
+//        binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
+//        val dayOfWeek = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+//        binding.dayOfWeekTV.text = dayOfWeek
+//        viewModel.date = date
+//    }
 
     private fun populateData() {
         var date = viewModel.date
         for (i in 0 until 10) {
-            date = date.plusDays(1)
+
             val element = EventForDate(
                 date,
                 viewModel.hourEventsListForDate(date)
             )
             rowsArrayList.add(element)
+            date = date.plusDays(1)
         }
     }
 
@@ -108,7 +109,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
-                val firstVisibleItemPosition = layoutManager?.findFirstCompletelyVisibleItemPosition()
+                val firstVisibleItemPosition =
+                    layoutManager?.findFirstCompletelyVisibleItemPosition()
 
                 if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1 || firstVisibleItemPosition == 0)) {
                     loadMore()
@@ -117,12 +119,16 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             }
         })
     }
+
+    @SuppressLint("NotifyDataSetChanged")
     private fun loadMore() {
         // Добавляем элемент в начало списка для прокрутки влево
-        rowsArrayList.add(0, EventForDate(
-            viewModel.date,
-            viewModel.hourEventsListForDate(viewModel.date)
-        ))
+        rowsArrayList.add(
+            0, EventForDate(
+                viewModel.date.minusDays(1),
+                viewModel.hourEventsListForDate(viewModel.date.minusDays(1))
+            )
+        )
 
         // Уведомляем адаптер о добавлении элемента
         recyclerViewAdapter.notifyItemInserted(0)
@@ -136,9 +142,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             // Добавляем элементы в конец списка для прокрутки вправо
             for (i in 0 until 10) {
                 viewModel.date = viewModel.date.plusDays(1)
-                rowsArrayList.add(EventForDate(
-                    viewModel.date,
-                    viewModel.hourEventsListForDate(viewModel.date)))
+                rowsArrayList.add(
+                    EventForDate(
+                        viewModel.date,
+                        viewModel.hourEventsListForDate(viewModel.date)
+                    )
+                )
             }
 
             recyclerViewAdapter.notifyDataSetChanged()

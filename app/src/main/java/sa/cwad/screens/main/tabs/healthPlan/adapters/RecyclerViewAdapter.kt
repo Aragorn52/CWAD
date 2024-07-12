@@ -1,5 +1,6 @@
 package sa.cwad.screens.main.tabs.healthPlan.adapters
 
+import android.icu.text.Collator.getDisplayName
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,8 @@ import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
+import java.time.format.TextStyle
+import java.util.Locale
 
 class RecyclerViewAdapter(
     private val datePresenter: DatePresenter,
@@ -27,7 +30,6 @@ class RecyclerViewAdapter(
         )
 
         if (viewType == VIEW_TYPE_ITEM) {
-//            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_row, parent, false)
             return ItemViewHolder(binding)
         } else {
             val view =
@@ -57,6 +59,10 @@ class RecyclerViewAdapter(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
+            val date = mItemList[position]!!.date
+
+            binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
+            binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
             binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, mItemList[position]!!.hourEvent)
         }
     }
