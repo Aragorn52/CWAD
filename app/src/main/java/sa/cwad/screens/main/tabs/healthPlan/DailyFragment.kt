@@ -57,7 +57,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         populateData()
         initAdapter()
         initScrollListener()
-        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 300F))
+        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
 
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)

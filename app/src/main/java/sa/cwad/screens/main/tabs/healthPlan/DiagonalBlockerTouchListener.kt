@@ -18,22 +18,34 @@ class DiagonalBlockerTouchListener(
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
+                // Сохраняем начальную точку касания
                 initialTouchX = e.x
                 initialTouchY = e.y
+                // Останавливаем скроллинг при начале касания
+                rv.stopScroll()
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                // Вычисляем конечную точку касания и направление движения
                 val finalTouchX = e.x
                 val finalTouchY = e.y
                 val deltaX = finalTouchX - initialTouchX
                 val deltaY = finalTouchY - initialTouchY
 
-                // Блокируем скроллинг, если движение похоже на диагональное или слишком короткое
+                if (finalTouchX == initialTouchX || finalTouchY == initialTouchY) {
+                    return false
+                }
+                // Определяем, следует ли блокировать скроллинг
                 if ((blockDiagonalScrolls && abs(deltaX) < abs(deltaY)) ||
                     (abs(deltaX) < minSwipeDistance && abs(deltaY) < minSwipeDistance)) {
-                    return true // Блокируем скроллинг
+                    // Блокируем скроллинг, но разрешаем дальнейшую обработку события
+                    return true // Возвращаем true, чтобы RecyclerView сам обрабатывал касание
+                } else {
+                    // Если условия для блокировки скроллинга не выполняются, разрешаем дальнейшую обработку события
+                    return false
                 }
             }
         }
+        // По умолчанию разрешаем дальнейшую обработку события
         return false
     }
 }

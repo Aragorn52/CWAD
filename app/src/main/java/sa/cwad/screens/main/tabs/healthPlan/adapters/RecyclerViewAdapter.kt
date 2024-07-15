@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
@@ -64,6 +65,11 @@ class RecyclerViewAdapter(
             binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
             binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
             binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, mItemList[position]!!.hourEvent)
+
+        // Устанавливаем слушатель кликов для каждого элемента
+            binding.hourListView.setOnItemClickListener{_,_,pos,_ ->
+                Toast.makeText(binding.root.context, "click position $pos", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
