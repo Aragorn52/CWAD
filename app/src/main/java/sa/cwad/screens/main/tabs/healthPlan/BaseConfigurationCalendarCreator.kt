@@ -66,7 +66,7 @@ open class BaseConfigurationCalendarCreator<T : RecyclerView.ViewHolder> @Inject
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun loadingData(
+    fun loadingData(
         recyclerViewAdapter: RecyclerView.Adapter<T>,
         callback: LoadData
     ) {

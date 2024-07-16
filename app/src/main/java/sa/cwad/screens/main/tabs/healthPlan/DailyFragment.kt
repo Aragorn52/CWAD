@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
@@ -27,8 +28,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var binding: FragmentDailyBinding
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: DailyLoadedAdapter
     private val rowsArrayList = arrayListOf<EventForDate?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +43,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = binding.recyclerView
         initRecyclerView()
         initEventData()
         binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
@@ -65,7 +63,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private fun initRecyclerView() {
 
-        val rvAdapter = DailyLoadedAdapter(datePresenter, rowsArrayList)
+        val rvAdapter = DailyLoadedAdapter(datePresenter, rowsArrayList, ::goBackButton, ::goNextButton)
         val rv = binding.recyclerView
         val lastElement = rowsArrayList.size - 1
 
@@ -86,6 +84,24 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         }
     }
 
+    private fun goBackButton() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
+        val lastVisibleItemPosition = layoutManager!!.findLastCompletelyVisibleItemPosition()
+        if (lastVisibleItemPosition == 0) {
+            binding.recyclerView.adapter?.let { creator.loadingData(it, ::loadDownMore) }
+        }
+        binding.recyclerView.scrollToPosition(lastVisibleItemPosition - 1)
+    }
+
+    private fun goNextButton() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
+        val lastVisibleItemPosition = layoutManager!!.findLastCompletelyVisibleItemPosition()
+        if (lastVisibleItemPosition == rowsArrayList.size - 1) {
+            binding.recyclerView.adapter?.let { creator.loadingData(it, ::loadUpMore) }
+        }
+        binding.recyclerView.scrollToPosition(lastVisibleItemPosition + 1)
+    }
+
     private fun loadDownMore() {
         val dateFirst = rowsArrayList[0]!!.date
         // Добавляем элемент в начало списка для прокрутки влево
@@ -98,6 +114,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         )
 
         // Уведомляем адаптер о добавлении элемента
-        recyclerViewAdapter.notifyItemInserted(0)
+        binding.recyclerView.adapter?.notifyItemInserted(0)
     }
 }

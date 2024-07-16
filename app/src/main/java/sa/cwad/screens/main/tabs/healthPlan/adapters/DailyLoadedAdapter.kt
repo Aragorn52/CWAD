@@ -9,14 +9,18 @@ import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.LoadData
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 
 class DailyLoadedAdapter(
     private val datePresenter: DatePresenter,
-    var mItemList: List<EventForDate?>
+    var mItemList: List<EventForDate?>,
+    val backButtonListener: LoadData,
+    val nextButtonListener: LoadData
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
 
@@ -63,7 +67,8 @@ class DailyLoadedAdapter(
             binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
             binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
             binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, mItemList[position]!!.hourEvent)
-
+            binding.back.setOnClickListener{ backButtonListener() }
+            binding.next.setOnClickListener{ nextButtonListener() }
         // Устанавливаем слушатель кликов для каждого элемента
             binding.hourListView.setOnItemClickListener{_,_,pos,_ ->
                 Toast.makeText(binding.root.context, "click position $pos", Toast.LENGTH_SHORT).show()
