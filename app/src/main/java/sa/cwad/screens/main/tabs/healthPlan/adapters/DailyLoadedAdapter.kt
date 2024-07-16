@@ -1,11 +1,9 @@
 package sa.cwad.screens.main.tabs.healthPlan.adapters
 
-import android.icu.text.Collator.getDisplayName
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
@@ -15,7 +13,7 @@ import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 
-class RecyclerViewAdapter(
+class DailyLoadedAdapter(
     private val datePresenter: DatePresenter,
     var mItemList: List<EventForDate?>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -82,8 +80,6 @@ class RecyclerViewAdapter(
     }
 
     private fun populateItemRows(viewHolder: ItemViewHolder, position: Int) {
-        val item = mItemList!![position]
         viewHolder.bind(position)
-//        viewHolder.tvItem.text = item
     }
 }
