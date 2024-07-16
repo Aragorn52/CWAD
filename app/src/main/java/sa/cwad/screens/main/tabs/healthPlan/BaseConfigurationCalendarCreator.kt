@@ -36,7 +36,7 @@ open class BaseConfigurationCalendarCreator<T : RecyclerView.ViewHolder> @Inject
         manager.scrollToPositionWithOffset(100, 0)
     }
 
-    fun initScrollListener(
+    fun initListeners(
         recyclerView: RecyclerView,
         recyclerViewAdapter: RecyclerView.Adapter<T>,
         leftScrollLoadDataListener: LoadData,
@@ -63,6 +63,8 @@ open class BaseConfigurationCalendarCreator<T : RecyclerView.ViewHolder> @Inject
                 }
             }
         })
+
+        recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
     }
 
     @SuppressLint("NotifyDataSetChanged")

@@ -45,7 +45,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initEventData()
-        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
 
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
@@ -68,7 +67,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         val lastElement = rowsArrayList.size - 1
 
         creator.initAdapter(requireContext(), recyclerView = rv, recyclerViewAdapter = rvAdapter)
-        creator.initScrollListener(rv, rvAdapter, ::loadUpMore, ::loadDownMore, lastElement, 0)
+        creator.initListeners(rv, rvAdapter, ::loadUpMore, ::loadDownMore, lastElement, 0)
     }
 
     private fun loadUpMore() {
