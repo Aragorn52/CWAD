@@ -90,7 +90,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         if (lastVisibleItemPosition == 0) {
             binding.recyclerView.adapter?.let { creator.loadingData(it, ::loadDownMore) }
         }
-        binding.recyclerView.scrollToPosition(lastVisibleItemPosition - 1)
+        binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition - 1)
     }
 
     private fun goNextButton() {
@@ -99,7 +99,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         if (lastVisibleItemPosition == rowsArrayList.size - 1) {
             binding.recyclerView.adapter?.let { creator.loadingData(it, ::loadUpMore) }
         }
-        binding.recyclerView.scrollToPosition(lastVisibleItemPosition + 1)
+        binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition + 1)
     }
 
     private fun loadDownMore() {
