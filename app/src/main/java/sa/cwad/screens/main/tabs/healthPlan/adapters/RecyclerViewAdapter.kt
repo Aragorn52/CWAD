@@ -1,11 +1,9 @@
 package sa.cwad.screens.main.tabs.healthPlan.adapters
 
-import android.icu.text.Collator.getDisplayName
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R

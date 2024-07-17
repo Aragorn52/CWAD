@@ -34,8 +34,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var binding: FragmentDailyBinding
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: RecyclerViewAdapter
     private val rowsArrayList = arrayListOf<EventForDate?>()
 
     private var isLoading = false
@@ -53,20 +51,18 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = binding.recyclerView
-        populateData()
+        initEventData()
         initAdapter()
-        initScrollListener()
-        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
+        initListeners()
 
         binding.newEventBT.setOnClickListener {
             findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
         }
     }
 
-    private fun populateData() {
-        var date = viewModel.date.minusDays(100)
-        for (i in 0 until 201) {
+    private fun initEventData() {
+        var date = viewModel.date.minusDays(1)
+        for (i in 0 until 10) {
 
             val element = EventForDate(
                 date,
@@ -80,18 +76,17 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private fun initAdapter() {
         val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewAdapter = RecyclerViewAdapter(datePresenter, rowsArrayList)
-        recyclerView.adapter = recyclerViewAdapter
-        recyclerView.layoutManager = manager
+        binding.recyclerView.adapter = RecyclerViewAdapter(datePresenter, rowsArrayList)
+        binding.recyclerView.layoutManager = manager
 
         val snapHelper: SnapHelper = PagerSnapHelper()
-        recyclerView.onFlingListener = null
+        binding.recyclerView.onFlingListener = null
         snapHelper.attachToRecyclerView(binding.recyclerView)
-        recyclerView.addItemDecoration(HorizontalSpaceItemDecoration(16))
-        manager.scrollToPositionWithOffset(100, 0)
+        binding.recyclerView.addItemDecoration(HorizontalSpaceItemDecoration(16))
+        manager.scrollToPositionWithOffset(1, 0)
     }
 
-    private fun initScrollListener() {
+    private fun initListeners() {
         binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -111,45 +106,34 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 }
             }
         })
+        binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun loadUpMore() {
-        for (i in 0 until 100) {
+        for (i in 0 until 10) {
             val dateLast = rowsArrayList.last()!!.date
             val actualDate = dateLast.plusDays(1)
-            rowsArrayList.add(
-                EventForDate(
-                    dateLast.plusDays(1),
-                    viewModel.hourEventsListForDate(actualDate)
-                )
-            )
+            val event = EventForDate(actualDate, viewModel.hourEventsListForDate(actualDate))
+            rowsArrayList.add(event)
         }
 
-        CoroutineScope(Dispatchers.Main).launch {
-            recyclerViewAdapter.notifyDataSetChanged()
-            isLoading = false
-        }
+        notifyAdapter()
+    }
+
+    private fun loadDownMore() {
+        val dateFirst = rowsArrayList[0]!!.date
+        val lastDay = dateFirst.minusDays(1)
+        val events = viewModel.hourEventsListForDate(lastDay)
+        rowsArrayList.add(index = 0, element = EventForDate(lastDay, events))
+
+        binding.recyclerView.adapter?.notifyItemInserted(0)
+        notifyAdapter()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun loadDownMore() {
-        val dateFirst = rowsArrayList[0]!!.date
-        // Добавляем элемент в начало списка для прокрутки влево
-        rowsArrayList.add(
-            index = 0,
-            element = EventForDate(
-                dateFirst.minusDays(1),
-                viewModel.hourEventsListForDate(dateFirst.minusDays(1))
-            )
-        )
-
-        // Уведомляем адаптер о добавлении элемента
-        recyclerViewAdapter.notifyItemInserted(0)
-
-        // Задержка имитирует загрузку данных
+    private fun notifyAdapter() {
         CoroutineScope(Dispatchers.Main).launch {
-            recyclerViewAdapter.notifyDataSetChanged()
+            binding.recyclerView.adapter?.notifyDataSetChanged()
             isLoading = false
         }
     }
