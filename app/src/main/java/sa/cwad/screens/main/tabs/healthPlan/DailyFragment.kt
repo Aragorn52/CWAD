@@ -2,6 +2,7 @@ package sa.cwad.screens.main.tabs.healthPlan
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -19,7 +21,7 @@ import kotlinx.coroutines.launch
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.decorators.HorizontalSpaceItemDecoration
-import sa.cwad.screens.main.tabs.healthPlan.adapters.RecyclerViewAdapter
+import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import javax.inject.Inject
 
@@ -76,7 +78,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private fun initAdapter() {
         val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerView.adapter = RecyclerViewAdapter(datePresenter, rowsArrayList)
+        binding.recyclerView.adapter =
+            DailyLoadedAdapter(datePresenter, rowsArrayList, ::goBackButton, ::goNextButton)
         binding.recyclerView.layoutManager = manager
 
         val snapHelper: SnapHelper = PagerSnapHelper()
@@ -93,8 +96,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
-                val firstVisibleItemPosition =
-                    layoutManager?.findFirstCompletelyVisibleItemPosition()
+                val firstVisibleItemPosition = layoutManager?.findFirstCompletelyVisibleItemPosition()
 
                 if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1)) {
                     loadUpMore()
@@ -107,6 +109,18 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             }
         })
         binding.recyclerView.addOnItemTouchListener(DiagonalBlockerTouchListener(true, 150F))
+    }
+
+    private fun goBackButton() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
+        val lastVisibleItemPosition = layoutManager!!.findLastCompletelyVisibleItemPosition()
+        binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition - 1)
+    }
+
+    private fun goNextButton() {
+        val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
+        val pos = layoutManager!!.findFirstVisibleItemPosition()
+        binding.recyclerView.scrollToPosition(pos + 1)
     }
 
     private fun loadUpMore() {
