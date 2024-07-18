@@ -114,7 +114,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     private fun goBackButton() {
         val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
         val lastVisibleItemPosition = layoutManager!!.findLastCompletelyVisibleItemPosition()
-        binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition - 1)
+        if (lastVisibleItemPosition == 0) {
+            loadDownMore()
+        }
+        binding.recyclerView.scrollToPosition(lastVisibleItemPosition - 1)
     }
 
     private fun goNextButton() {
