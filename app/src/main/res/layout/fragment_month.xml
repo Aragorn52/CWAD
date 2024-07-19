@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="sa.cwad.screens.main.tabs.healthPlan.MonthFragment">
+    tools:context="sa.cwad.screens.main.tabs.healthPlan.fragments.MonthFragment">
     <Button
         android:id="@+id/weekly"
         android:layout_width="wrap_content"

@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -20,6 +20,8 @@ import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.recyclerView.decorators.HorizontalSpaceItemDecoration
 import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
+import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
+import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import javax.inject.Inject

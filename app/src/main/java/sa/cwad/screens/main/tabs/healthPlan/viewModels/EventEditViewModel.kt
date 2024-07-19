@@ -1,18 +1,12 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.viewModels
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.fragment.findNavController
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
-import sa.cwad.R
+import sa.cwad.screens.main.tabs.healthPlan.EventService
 import sa.cwad.screens.main.tabs.healthPlan.models.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.LocalTime
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel

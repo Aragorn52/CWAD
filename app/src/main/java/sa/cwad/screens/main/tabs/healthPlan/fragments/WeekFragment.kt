@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.FragmentWeekBinding
+import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.EventService
+import sa.cwad.screens.main.tabs.healthPlan.viewModels.WeekViewModel
 import sa.cwad.screens.main.tabs.healthPlan.adapters.CalendarAdapter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.EventAdapter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.OnItemListener

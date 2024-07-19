@@ -1,11 +1,8 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.viewModels
 
 import androidx.lifecycle.ViewModel
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class WeekViewModel : ViewModel() {
 

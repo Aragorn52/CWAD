@@ -6,7 +6,7 @@
     app:startDestination="@id/monthFragment">
     <fragment
         android:id="@+id/monthFragment"
-        android:name="sa.cwad.screens.main.tabs.healthPlan.MonthFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.fragments.MonthFragment"
         android:label="fragment_month"
         tools:layout="@layout/fragment_month" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/weekFragment"
-        android:name="sa.cwad.screens.main.tabs.healthPlan.WeekFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.fragments.WeekFragment"
         android:label="fragment_week"
         tools:layout="@layout/fragment_week" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/eventEditFragment"
-        android:name="sa.cwad.screens.main.tabs.healthPlan.EventEditFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.fragments.EventEditFragment"
         android:label="event_edit_fragment"
         tools:layout="@layout/event_edit_fragment" >
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/dailyFragment"
-        android:name="sa.cwad.screens.main.tabs.healthPlan.DailyFragment"
+        android:name="sa.cwad.screens.main.tabs.healthPlan.fragments.DailyFragment"
         android:label="fragment_daily"
         tools:layout="@layout/fragment_daily" >
         <action

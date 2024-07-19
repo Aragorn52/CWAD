@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,8 +9,9 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.EventEditFragmentBinding
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
-import sa.cwad.utils.viewModelCreator
+import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.viewModels.EventEditViewModel
+import sa.cwad.screens.main.tabs.healthPlan.EventService
 import java.time.LocalTime
 import javax.inject.Inject
 

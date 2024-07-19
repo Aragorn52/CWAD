@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.screens.main.tabs.healthPlan.viewModels
 
 import androidx.lifecycle.ViewModel
 import java.time.LocalDate
