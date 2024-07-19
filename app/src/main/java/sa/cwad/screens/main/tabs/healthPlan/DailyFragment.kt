@@ -117,13 +117,17 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         if (lastVisibleItemPosition == 0) {
             loadDownMore()
         }
-        binding.recyclerView.scrollToPosition(lastVisibleItemPosition - 1)
+        binding.recyclerView.post{
+            binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition - 1)
+        }
     }
 
     private fun goNextButton() {
         val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
         val pos = layoutManager!!.findFirstVisibleItemPosition()
-        binding.recyclerView.scrollToPosition(pos + 1)
+        binding.recyclerView.post{
+            binding.recyclerView.smoothScrollToPosition(pos + 1)
+        }
     }
 
     private fun loadUpMore() {

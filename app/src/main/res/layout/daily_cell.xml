@@ -52,7 +52,7 @@
         android:textColor="@color/gray"
         android:textSize="16sp" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hourListView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

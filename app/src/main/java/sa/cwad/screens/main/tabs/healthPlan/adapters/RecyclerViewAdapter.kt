@@ -1,11 +1,14 @@
 package sa.cwad.screens.main.tabs.healthPlan.adapters
 
+import HourEventRecyclerViewAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Orientation
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
@@ -65,13 +68,14 @@ class DailyLoadedAdapter(
 
             binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
             binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, mItemList[position]!!.hourEvent)
+            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, mItemList[position]!!.hourEvent)
+            binding.hourListView.layoutManager = LinearLayoutManager(binding.root.context,LinearLayoutManager.VERTICAL, false)
             binding.back.setOnClickListener{ backButtonListener() }
             binding.next.setOnClickListener{ nextButtonListener() }
             // Устанавливаем слушатель кликов для каждого элемента
-            binding.hourListView.setOnItemClickListener{_,_,pos,_ ->
-                Toast.makeText(binding.root.context, "click position $pos", Toast.LENGTH_SHORT).show()
-            }
+//            binding.hourListView.setOnItemClickListener{_,_,pos,_ ->
+//                Toast.makeText(binding.root.context, "click position $pos", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 

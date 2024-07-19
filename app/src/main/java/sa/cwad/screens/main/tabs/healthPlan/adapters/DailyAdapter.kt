@@ -1,6 +1,6 @@
 package sa.cwad.screens.main.tabs.healthPlan.adapters
 
-import android.annotation.SuppressLint
+import HourEventRecyclerViewAdapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +39,7 @@ class DailyAdapter(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            binding.hourListView.adapter = HourEventAdapter(datePresenter, binding.root.context, hourEvents[position].hourEvent)
+            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, hourEvents[position].hourEvent)
         }
     }
 }
