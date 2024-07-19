@@ -1,4 +1,4 @@
-package sa.cwad.decorators
+package sa.cwad.recyclerView.decorators
 
 import android.graphics.Rect
 import android.view.View

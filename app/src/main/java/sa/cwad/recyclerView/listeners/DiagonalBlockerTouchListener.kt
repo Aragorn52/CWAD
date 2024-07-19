@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan
+package sa.cwad.recyclerView.listeners
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs

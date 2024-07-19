@@ -2,7 +2,6 @@ package sa.cwad.screens.main.tabs.healthPlan
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -20,7 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
-import sa.cwad.decorators.HorizontalSpaceItemDecoration
+import sa.cwad.recyclerView.decorators.HorizontalSpaceItemDecoration
+import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import javax.inject.Inject
