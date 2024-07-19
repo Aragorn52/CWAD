@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Orientation
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
@@ -16,7 +14,7 @@ import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 
-class DailyLoadedAdapter(
+class DailyLoadedRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
     var mItemList: List<EventForDate?>,
     val backButtonListener: () -> Unit,
@@ -25,7 +23,6 @@ class DailyLoadedAdapter(
 
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = DailyCellBinding.inflate(

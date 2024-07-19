@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.decorators.HorizontalSpaceItemDecoration
-import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedAdapter
+import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
 import javax.inject.Inject
 
@@ -79,7 +79,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     private fun initAdapter() {
         val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         binding.recyclerView.adapter =
-            DailyLoadedAdapter(datePresenter, rowsArrayList, ::goBackButton, ::goNextButton)
+            DailyLoadedRecyclerViewAdapter(datePresenter, rowsArrayList, ::goBackButton, ::goNextButton)
         binding.recyclerView.layoutManager = manager
 
         val snapHelper: SnapHelper = PagerSnapHelper()
