@@ -56,9 +56,8 @@
         android:id="@+id/hourListView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dayOfWeekTV"
         android:layout_width="0dp"
-        android:layout_height="0dp" />
+        android:layout_height="300dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
