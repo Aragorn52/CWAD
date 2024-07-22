@@ -5,18 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
+import sa.cwad.databinding.MonthCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
+import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
-class DailyLoadedRecyclerViewAdapter(
+class MonthLoadedRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
-    var mItemList: List<EventForDate?>,
+    var mItemList: List<List<LocalDate?>>,
     val backButtonListener: () -> Unit,
     val nextButtonListener: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,10 +28,8 @@ class DailyLoadedRecyclerViewAdapter(
     private val VIEW_TYPE_LOADING = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val binding = DailyCellBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+        val binding = MonthCellBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
         )
 
         if (viewType == VIEW_TYPE_ITEM) {
@@ -58,17 +59,20 @@ class DailyLoadedRecyclerViewAdapter(
 
 
     private inner class ItemViewHolder(
-        val binding: DailyCellBinding,
+        val binding: MonthCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
-            val date = mItemList[position]!!.date
+            val date = mItemList[position]!!
 
-            binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
-            binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, mItemList[position]!!.hourEvent)
-            binding.hourListView.layoutManager = LinearLayoutManager(binding.root.context,LinearLayoutManager.VERTICAL, false)
-            binding.back.setOnClickListener{ backButtonListener() }
-            binding.next.setOnClickListener{ nextButtonListener() }
+            binding.monthYearTV.text = datePresenter.monthYearFromDate(date.first()!!)
+            val daysInMonth = mItemList[position]
+
+            val calendarAdapter = CalendarAdapter(date.first()!!, daysInMonth, {position, date ->  })
+            val layoutManager = GridLayoutManager(binding.root.context, 7)
+            binding.calendarRecyclerView.layoutManager = layoutManager
+            binding.calendarRecyclerView.adapter = calendarAdapter
+            binding.back.setOnClickListener { backButtonListener() }
+            binding.next.setOnClickListener { nextButtonListener() }
         }
     }
 
