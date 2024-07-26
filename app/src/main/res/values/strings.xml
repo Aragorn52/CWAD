@@ -48,6 +48,4 @@
     <string name="backMonth"><![CDATA[<-]]></string>
     <string name="nextMonth"><![CDATA[->]]></string>
     <string name="new_event">New Event</string>
-    <string name="back">back</string>
-    <string name="next">next</string>
 </resources>

@@ -7,6 +7,8 @@
     android:background="@color/white"
     tools:context="sa.cwad.screens.main.tabs.healthPlan.fragments.DailyFragment">
 
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_margin="10dp"

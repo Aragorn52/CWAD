@@ -69,6 +69,10 @@ class DailyLoadedRecyclerViewAdapter(
             binding.hourListView.layoutManager = LinearLayoutManager(binding.root.context,LinearLayoutManager.VERTICAL, false)
             binding.back.setOnClickListener{ backButtonListener() }
             binding.next.setOnClickListener{ nextButtonListener() }
+            // Устанавливаем слушатель кликов для каждого элемента
+//            binding.hourListView.setOnItemClickListener{_,_,pos,_ ->
+//                Toast.makeText(binding.root.context, "click position $pos", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 
