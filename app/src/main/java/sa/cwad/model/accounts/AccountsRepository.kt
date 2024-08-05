@@ -1,12 +1,8 @@
-package sa.model.accounts
+package sa.cwad.model.accounts
 
 import kotlinx.coroutines.flow.Flow
-import sa.cwad.model.AccountAlreadyExistsException
-import sa.cwad.model.AuthException
-import sa.cwad.model.EmptyFieldException
-import sa.cwad.model.PasswordMismatchException
-import sa.model.accounts.entities.Account
-import sa.model.accounts.entities.SignUpData
+import sa.cwad.model.accounts.entities.Account
+import sa.cwad.model.accounts.entities.SignUpData
 
 /**
  * Repository with account-related actions, e.g. sign-in, sign-up, edit account etc.
@@ -20,29 +16,36 @@ interface AccountsRepository {
 
     /**
      * Try to sign-in with the email and password.
-     * @throws [EmptyFieldException], [AuthException]
+     * @throws [EmptyFieldException]
+     * @throws [AuthException]
+     * @throws [StorageException]
      */
     suspend fun signIn(email: String, password: String)
 
     /**
      * Create a new account.
-     * @throws [EmptyFieldException], [PasswordMismatchException], [AccountAlreadyExistsException]
+     * @throws [EmptyFieldException]
+     * @throws [PasswordMismatchException]
+     * @throws [AccountAlreadyExistsException]
+     * @throws [StorageException]
      */
     suspend fun signUp(signUpData: SignUpData)
 
     /**
      * Sign-out from the app.
      */
-    fun logout()
+    suspend fun logout()
 
     /**
      * Get the account info of the current signed-in user.
      */
-    fun getAccount(): Flow<Account?>
+    suspend fun getAccount(): Flow<Account?>
 
     /**
      * Change the username of the current signed-in user.
-     * @throws [EmptyFieldException], [AuthException]
+     * @throws [EmptyFieldException]
+     * @throws [AuthException]
+     * @throws [StorageException]
      */
     suspend fun updateAccountUsername(newUsername: String)
 

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import sa.cwad.model.EmptyFieldException
-import sa.model.accounts.AccountsRepository
+import sa.cwad.model.accounts.AccountsRepository
 import sa.cwad.utils.MutableLiveEvent
 import sa.cwad.utils.MutableUnitLiveEvent
 import sa.cwad.utils.publishEvent

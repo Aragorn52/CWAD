@@ -1,9 +1,10 @@
-package sa.model.accounts.entities
+package sa.cwad.model.accounts.entities
 
 /**
  * Information about the user.
  */
 data class Account(
+    val id: Long,
     val username: String,
     val email: String,
     val createdAt: Long = UNKNOWN_CREATED_AT

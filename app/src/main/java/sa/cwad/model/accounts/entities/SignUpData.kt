@@ -1,8 +1,9 @@
-package sa.model.accounts.entities
+package sa.cwad.model.accounts.entities
 
 import sa.cwad.model.EmptyFieldException
 import sa.cwad.model.Field
 import sa.cwad.model.PasswordMismatchException
+
 
 /**
  * Fields that should be provided during creating a new account.
