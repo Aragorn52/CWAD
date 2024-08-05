@@ -7,7 +7,7 @@ import androidx.navigation.navOptions
 import sa.cwad.R
 import sa.cwad.Repositories
 import sa.cwad.databinding.FragmentProfileBinding
-import sa.model.accounts.entities.Account
+import sa.cwad.model.accounts.entities.Account
 import sa.cwad.utils.findTopNavController
 import sa.cwad.utils.observeEvent
 import sa.cwad.utils.viewModelCreator

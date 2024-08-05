@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import sa.model.boxes.BoxesRepository
+import sa.cwad.model.boxes.BoxesRepository
 import sa.cwad.utils.MutableLiveEvent
 import sa.cwad.utils.publishEvent
 import sa.cwad.utils.share
 
 class BoxViewModel(
-    private val boxId: Int,
+    private val boxId: Long,
     private val boxesRepository: BoxesRepository
 ) : ViewModel() {
 
@@ -20,8 +20,8 @@ class BoxViewModel(
 
     init {
         viewModelScope.launch {
-            boxesRepository.getBoxes(onlyActive = true)
-                .map { boxes -> boxes.firstOrNull { it.id == boxId } }
+            boxesRepository.getBoxesAndSettings(onlyActive = true)
+                .map { boxes -> boxes.firstOrNull { it.box.id == boxId } }
                 .collect { currentBox ->
                     _shouldExitEvent.publishEvent(currentBox == null)
                 }

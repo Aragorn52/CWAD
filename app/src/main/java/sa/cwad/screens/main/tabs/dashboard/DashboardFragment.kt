@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import sa.cwad.R
 import sa.cwad.Repositories
 import sa.cwad.databinding.FragmentDashboardBinding
-import sa.model.boxes.entities.Box
+import sa.cwad.model.boxes.entities.Box
 import sa.cwad.utils.viewModelCreator
 import sa.cwad.views.DashboardItemView
 
@@ -67,7 +67,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         val box = it.tag as Box
         val direction = DashboardFragmentDirections.actionDashboardFragmentToBoxFragment(
             box.id,
-            getString(box.colorNameRes),
+            box.colorName,
             box.colorValue
         )
         findNavController().navigate(direction)

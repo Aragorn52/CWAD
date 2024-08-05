@@ -11,7 +11,7 @@ import com.google.android.material.textfield.TextInputLayout
 import sa.cwad.R
 import sa.cwad.Repositories
 import sa.cwad.databinding.FragmentSignUpBinding
-import sa.model.accounts.entities.SignUpData
+import sa.cwad.model.accounts.entities.SignUpData
 import sa.cwad.utils.observeEvent
 import sa.cwad.utils.viewModelCreator
 

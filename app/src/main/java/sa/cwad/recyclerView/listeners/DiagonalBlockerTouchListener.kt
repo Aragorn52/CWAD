@@ -1,4 +1,5 @@
 package sa.cwad.recyclerView.listeners
+
 import android.view.MotionEvent
 import androidx.recyclerview.widget.RecyclerView
 import kotlin.math.abs

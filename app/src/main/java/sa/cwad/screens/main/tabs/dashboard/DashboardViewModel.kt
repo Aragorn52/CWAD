@@ -3,10 +3,9 @@ package sa.cwad.screens.main.tabs.dashboard
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import sa.model.boxes.BoxesRepository
-import sa.model.boxes.entities.Box
+import sa.cwad.model.boxes.BoxesRepository
+import sa.cwad.model.boxes.entities.Box
 import sa.cwad.utils.share
 
 class DashboardViewModel(
@@ -18,8 +17,8 @@ class DashboardViewModel(
 
     init {
         viewModelScope.launch {
-            boxesRepository.getBoxes(onlyActive = true).collect {
-                _boxes.value = it
+            boxesRepository.getBoxesAndSettings(onlyActive = true).collect { list ->
+                _boxes.value = list.map { it.box }
             }
         }
     }

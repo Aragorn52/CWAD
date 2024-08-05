@@ -4,17 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
-import sa.model.boxes.entities.Box
+import sa.cwad.model.boxes.entities.Box
+import sa.cwad.model.boxes.entities.BoxAndSettings
 
 class SettingsAdapter(
     private val listener: Listener
 ) : RecyclerView.Adapter<SettingsAdapter.Holder>(), View.OnClickListener {
 
-    private var settings: List<BoxSetting> = emptyList()
+    private var settings: List<BoxAndSettings> = emptyList()
 
     override fun onClick(v: View?) {
         val checkBox = v as CheckBox
@@ -38,17 +38,17 @@ class SettingsAdapter(
         val context = holder.itemView.context
         holder.checkBox.tag = setting.box
 
-        if (holder.checkBox.isChecked != setting.enabled) {
-            holder.checkBox.isChecked = setting.enabled
+        if (holder.checkBox.isChecked != setting.isActive) {
+            holder.checkBox.isChecked = setting.isActive
         }
 
-        val colorName = context.getString(setting.box.colorNameRes)
+        val colorName = setting.box.colorName
         holder.checkBox.text = context.getString(R.string.enable_checkbox, colorName)
     }
 
     override fun getItemCount(): Int = settings.size
 
-    fun renderSettings(settings: List<BoxSetting>) {
+    fun renderSettings(settings: List<BoxAndSettings>) {
         val diffResult = DiffUtil.calculateDiff(BoxSettingsDiffCallback(this.settings, settings))
         this.settings = settings
         diffResult.dispatchUpdatesTo(this)

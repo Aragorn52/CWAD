@@ -3,7 +3,7 @@ package sa.cwad.screens.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sa.model.accounts.AccountsRepository
+import sa.cwad.model.accounts.AccountsRepository
 import sa.cwad.utils.MutableLiveEvent
 import sa.cwad.utils.publishEvent
 import sa.cwad.utils.share
