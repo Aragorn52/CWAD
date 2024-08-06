@@ -23,7 +23,7 @@ import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
 import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
-import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import javax.inject.Inject
 
 

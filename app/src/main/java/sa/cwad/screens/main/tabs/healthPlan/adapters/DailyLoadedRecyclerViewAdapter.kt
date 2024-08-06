@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
-import sa.cwad.screens.main.tabs.healthPlan.models.EventForDate
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 

@@ -1,6 +1,6 @@
 package sa.cwad.screens.main.tabs.healthPlan
 
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject

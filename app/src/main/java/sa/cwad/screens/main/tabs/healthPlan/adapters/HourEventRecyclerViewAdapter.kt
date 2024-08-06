@@ -5,8 +5,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
-import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.HourEvent
 import java.time.LocalTime
 
 class HourEventRecyclerViewAdapter(

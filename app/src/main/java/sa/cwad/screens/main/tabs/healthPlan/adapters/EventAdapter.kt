@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import sa.cwad.R
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
-import sa.cwad.screens.main.tabs.healthPlan.models.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 
 class EventAdapter(
     private val datePresenter: DatePresenter, context: Context, events: List<Event>

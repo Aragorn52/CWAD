@@ -3,7 +3,7 @@ package sa.cwad.screens.main.tabs.healthPlan.viewModels
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import sa.cwad.screens.main.tabs.healthPlan.EventService
-import sa.cwad.screens.main.tabs.healthPlan.models.HourEvent
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.HourEvent
 import java.time.LocalDate
 import java.time.LocalTime
 import javax.inject.Inject

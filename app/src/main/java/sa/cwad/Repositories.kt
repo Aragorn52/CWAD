@@ -11,6 +11,8 @@ import sa.cwad.model.boxes.room.RoomBoxesRepository
 import sa.cwad.model.room.AppDatabase
 import sa.cwad.model.settings.AppSettings
 import sa.cwad.model.settings.SharedPreferencesAppSettings
+import sa.cwad.screens.main.tabs.healthPlan.models.EventsRepository
+import sa.cwad.screens.main.tabs.healthPlan.models.room.EventsRoomRepository
 
 
 object Repositories {
@@ -39,6 +41,10 @@ object Repositories {
 
     val boxesRepository: BoxesRepository by lazy {
         RoomBoxesRepository(accountsRepository, database.getBoxesDao(), ioDispatcher)
+    }
+
+    val eventsRepository: EventsRepository by lazy {
+        EventsRoomRepository(database.getEventsDao(), ioDispatcher)
     }
 
     /**

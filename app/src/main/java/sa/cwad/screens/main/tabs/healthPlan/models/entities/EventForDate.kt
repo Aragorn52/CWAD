@@ -1,4 +1,4 @@
-package sa.cwad.screens.main.tabs.healthPlan.models
+package sa.cwad.screens.main.tabs.healthPlan.models.entities
 
 import java.time.LocalDate
 
