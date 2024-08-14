@@ -1,8 +1,9 @@
 package sa.cwad.screens.main.tabs.healthPlan.models
 
+import kotlinx.coroutines.flow.Flow
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 
 interface EventsRepository {
 
-    suspend fun getEventsByAccountId(accountId: Long): List<Event?>
+    fun getEventsByAccountId(accountId: Long): Flow<List<Event?>>
 }

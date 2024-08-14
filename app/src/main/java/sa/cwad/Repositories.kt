@@ -44,7 +44,7 @@ object Repositories {
     }
 
     val eventsRepository: EventsRepository by lazy {
-        EventsRoomRepository(database.getEventsDao(), ioDispatcher)
+        EventsRoomRepository(database.getEventsDao())
     }
 
     /**

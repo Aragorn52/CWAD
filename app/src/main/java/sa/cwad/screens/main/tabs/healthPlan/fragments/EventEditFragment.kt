@@ -10,7 +10,6 @@ import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import sa.cwad.R
 import sa.cwad.databinding.EventEditFragmentBinding
-import sa.cwad.screens.main.tabs.dashboard.BoxFragmentArgs
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.EventService
 import sa.cwad.screens.main.tabs.healthPlan.viewModels.EventEditViewModel
