@@ -35,10 +35,10 @@ class EventEditViewModel  @Inject constructor(private val repository: EventsRepo
 //        return list
 //    }
 
-    fun signUp(signUpData: SignUpData) {
+    fun createEvent(event: Event) {
         viewModelScope.launch {
 //            try {
-//                eventsRepository.getEventsByAccountId(signUpData)
+                repository.createEvent(event = event)
 //                showSuccessSignUpMessage()
 //                goBack()
 //            } catch (e: EmptyFieldException) {
@@ -55,6 +55,7 @@ class EventEditViewModel  @Inject constructor(private val repository: EventsRepo
 
     fun saveEvent(eventName: String, date: LocalDate, time: LocalTime) {
         val newEvent = Event(eventName, date, time)
+        createEvent(event = newEvent)
 //        eventService.eventsList.add(newEvent)
     }
 }
