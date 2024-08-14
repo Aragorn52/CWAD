@@ -20,10 +20,11 @@ import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
 import sa.cwad.recyclerView.decorators.HorizontalSpaceItemDecoration
 import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
-import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
+import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 
@@ -59,7 +60,12 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         initListeners()
 
         binding.newEventBT.setOnClickListener {
-            findNavController().navigate(R.id.action_dailyFragment_to_eventEditFragment)
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+            val direction = DailyFragmentDirections.actionDailyFragmentToEventEditFragment(
+                viewModel.date.format(formatter)
+            )
+            findNavController().navigate(direction)
         }
     }
 
@@ -73,7 +79,6 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
             )
             rowsArrayList.add(element)
             date = date.plusDays(1)
-            viewModel.date = date
         }
     }
 
@@ -98,6 +103,10 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
                 val firstVisibleItemPosition = layoutManager?.findFirstCompletelyVisibleItemPosition()
+
+                if (lastVisibleItemPosition != null && lastVisibleItemPosition != -1) {
+                    viewModel.date = rowsArrayList[lastVisibleItemPosition]?.date ?: viewModel.date
+                }
 
                 if (!isLoading && (lastVisibleItemPosition == rowsArrayList.size - 1)) {
                     loadUpMore()
