@@ -7,5 +7,5 @@ interface EventsRepository {
 
     fun getEventsByAccountId(accountId: Long): Flow<List<Event?>>
 
-    suspend fun createEvent(event: Event)
+    suspend fun createEvent(event: Event, accountId: Long)
 }

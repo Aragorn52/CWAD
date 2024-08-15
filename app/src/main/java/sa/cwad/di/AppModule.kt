@@ -8,6 +8,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import sa.cwad.model.room.AppDatabase
+import sa.cwad.model.settings.AppSettings
+import sa.cwad.model.settings.SharedPreferencesAppSettings
 import sa.cwad.screens.main.tabs.healthPlan.models.EventsRepository
 import sa.cwad.screens.main.tabs.healthPlan.models.room.EventsDao
 import sa.cwad.screens.main.tabs.healthPlan.models.room.EventsRoomRepository
@@ -32,5 +34,11 @@ object AppModule {
     @Provides
     fun provideEventRepository(eventDao: EventsDao): EventsRepository {
         return EventsRoomRepository(eventDao)
+    }
+
+    @Singleton
+    @Provides
+    fun provideAppSettings(@ApplicationContext application: Context): AppSettings {
+        return SharedPreferencesAppSettings(application)
     }
 }

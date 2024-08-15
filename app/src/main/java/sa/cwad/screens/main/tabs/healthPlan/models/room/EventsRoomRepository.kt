@@ -15,8 +15,9 @@ class EventsRoomRepository @Inject constructor(private val eventsDao: EventsDao)
         return eventsDao.findByAccountId(accountId).map { it.map { it?.toEvent() } }
     }
 
-    override suspend fun createEvent(event: Event) {
-        eventsDao.createEvent(EventDbEntity.fromEvent(event))
+    override suspend fun createEvent(event: Event, accountId: Long) {
+        val eventDb = EventDbEntity.fromEvent(event).also { it.accountId = accountId }
+        eventsDao.createEvent(eventDb)
     }
 
 }

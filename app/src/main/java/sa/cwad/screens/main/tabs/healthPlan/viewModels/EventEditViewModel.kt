@@ -9,6 +9,7 @@ import sa.cwad.model.EmptyFieldException
 import sa.cwad.model.PasswordMismatchException
 import sa.cwad.model.accounts.AccountsRepository
 import sa.cwad.model.accounts.entities.SignUpData
+import sa.cwad.model.settings.AppSettings
 import sa.cwad.screens.main.tabs.healthPlan.EventService
 import sa.cwad.screens.main.tabs.healthPlan.models.EventsRepository
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
@@ -18,7 +19,9 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class EventEditViewModel  @Inject constructor(private val repository: EventsRepository)
+class EventEditViewModel  @Inject constructor(
+    private val repository: EventsRepository,
+    private val appSettings: AppSettings)
  : ViewModel() {
 
     var date: LocalDate = LocalDate.now()
@@ -38,7 +41,7 @@ class EventEditViewModel  @Inject constructor(private val repository: EventsRepo
     fun createEvent(event: Event) {
         viewModelScope.launch {
 //            try {
-                repository.createEvent(event = event)
+                repository.createEvent(event = event, appSettings.getCurrentAccountId())
 //                showSuccessSignUpMessage()
 //                goBack()
 //            } catch (e: EmptyFieldException) {
