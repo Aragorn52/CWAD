@@ -19,10 +19,10 @@ import java.time.LocalTime
 import javax.inject.Inject
 
 @HiltViewModel
-class EventEditViewModel  @Inject constructor(
+class EventEditViewModel @Inject constructor(
     private val repository: EventsRepository,
-    private val appSettings: AppSettings)
- : ViewModel() {
+    private val appSettings: AppSettings
+) : ViewModel() {
 
     var date: LocalDate = LocalDate.now()
 
@@ -41,7 +41,7 @@ class EventEditViewModel  @Inject constructor(
     fun createEvent(event: Event) {
         viewModelScope.launch {
 //            try {
-                repository.createEvent(event = event, appSettings.getCurrentAccountId())
+            repository.createEvent(event = event, appSettings.getCurrentAccountId())
 //                showSuccessSignUpMessage()
 //                goBack()
 //            } catch (e: EmptyFieldException) {

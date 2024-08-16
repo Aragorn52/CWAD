@@ -15,12 +15,18 @@ data class EventDbEntity(
     @ColumnInfo(name = "date_time") val eventDateTime: LocalDateTime,
     @ColumnInfo(name = "account_id") var accountId: Long,
 ) {
+    fun a() {
+        eventDateTime.toLocalDate()
+    }
     fun toEvent(): Event = Event(
         name = name,
         date = eventDateTime.toLocalDate(),
         time = eventDateTime.toLocalTime()
     )
+
+
     companion object {
+
         fun fromEvent(event: Event) = EventDbEntity(
             id = 0, // SQLite generates identifier automatically if ID = 0
             name = event.name,

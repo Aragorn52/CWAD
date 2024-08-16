@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 
 class DailyLoadedRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
-    var mItemList: List<EventForDate?>,
+    var mItemList: ArrayList<Event?>,
     val backButtonListener: () -> Unit,
     val nextButtonListener: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -40,6 +41,13 @@ class DailyLoadedRecyclerViewAdapter(
         }
     }
 
+    fun submitList(newData: List<Event?>) {
+        mItemList.clear()
+        mItemList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
+
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
         if (viewHolder is ItemViewHolder) {
             populateItemRows(viewHolder, position)
@@ -49,11 +57,11 @@ class DailyLoadedRecyclerViewAdapter(
     }
 
     override fun getItemCount(): Int {
-        return if (mItemList == null) 0 else mItemList!!.size
+        return mItemList.size
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (mItemList!![position] == null) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
+        return if (mItemList.isEmpty()) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
     }
 
 
@@ -65,7 +73,7 @@ class DailyLoadedRecyclerViewAdapter(
 
             binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
             binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, mItemList[position]!!.hourEvent)
+            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, mItemList)
             binding.hourListView.layoutManager = LinearLayoutManager(binding.root.context,LinearLayoutManager.VERTICAL, false)
             binding.back.setOnClickListener{ backButtonListener() }
             binding.next.setOnClickListener{ nextButtonListener() }

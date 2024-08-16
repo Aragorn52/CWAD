@@ -21,7 +21,6 @@ class BoxViewModel(
     init {
         viewModelScope.launch {
             boxesRepository.getBoxesAndSettings(onlyActive = true)
-                .map { boxes -> boxes.firstOrNull { it.box.id == boxId } }
                 .collect { currentBox ->
                     _shouldExitEvent.publishEvent(currentBox == null)
                 }

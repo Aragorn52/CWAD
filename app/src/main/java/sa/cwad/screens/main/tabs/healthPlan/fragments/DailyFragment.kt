@@ -22,6 +22,7 @@ import sa.cwad.recyclerView.decorators.HorizontalSpaceItemDecoration
 import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
 import java.time.format.DateTimeFormatter
@@ -38,7 +39,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var binding: FragmentDailyBinding
 
-    private val rowsArrayList = arrayListOf<EventForDate?>()
+    private var rowsArrayList = arrayListOf<Event?>()
 
     private var isLoading = false
 
@@ -55,9 +56,15 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initEventData()
+        listenData()
+//        initEventData()
         initAdapter()
         initListeners()
+//        viewModel.getEventListEvent.observe(viewLifecycleOwner) { list ->
+//            rowsArrayList = list as ArrayList<Event?>
+//        }
+//        initAdapter()
+//        initListeners()
 
         binding.newEventBT.setOnClickListener {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -69,16 +76,18 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         }
     }
 
-    private fun initEventData() {
-        var date = viewModel.date.minusDays(1)
-        for (i in 0 until 10) {
+//    private fun initEventData() {
+//        var date = viewModel.date.minusDays(1)
+////        for (i in 0 until 10) {
+//            viewModel.getEventList(date)
+//            date = date.plusDays(1)
+////        }
+//    }
 
-            val element = EventForDate(
-                date,
-                viewModel.hourEventsListForDate(date)
-            )
-            rowsArrayList.add(element)
-            date = date.plusDays(1)
+    private fun listenData() {
+        viewModel.getEventListEvent.observe(viewLifecycleOwner) { list ->
+            val adapter = binding.recyclerView.adapter as DailyLoadedRecyclerViewAdapter
+            adapter.submitList(list)
         }
     }
 
@@ -141,12 +150,15 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     }
 
     private fun loadUpMore() {
-        for (i in 0 until 10) {
-            val dateLast = rowsArrayList.last()!!.date
-            val actualDate = dateLast.plusDays(1)
-            val event = EventForDate(actualDate, viewModel.hourEventsListForDate(actualDate))
-            rowsArrayList.add(event)
-        }
+        val dateLast = rowsArrayList.last()!!.date
+        viewModel.getEventList(dateLast.plusDays(1))
+        listenData()
+//        for (i in 0 until 10) {
+//            val dateLast = rowsArrayList.last()!!.date
+//            val actualDate = dateLast.plusDays(1)
+////            val event = EventForDate(actualDate, viewModel.hourEventsListForDate(actualDate))
+////            rowsArrayList.add(event)
+//        }
 
         notifyAdapter()
     }
@@ -154,8 +166,9 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     private fun loadDownMore() {
         val dateFirst = rowsArrayList[0]!!.date
         val lastDay = dateFirst.minusDays(1)
-        val events = viewModel.hourEventsListForDate(lastDay)
-        rowsArrayList.add(index = 0, element = EventForDate(lastDay, events))
+//        val events = viewModel.hourEventsListForDate(lastDay)
+//        rowsArrayList.add(index = 0, element = EventForDate(lastDay, events))
+        viewModel.getEventList(lastDay)
 
         binding.recyclerView.adapter?.notifyItemInserted(0)
         notifyAdapter()

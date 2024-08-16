@@ -11,7 +11,7 @@ import java.time.LocalTime
 
 class HourEventRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
-    private val hourEvents: List<HourEvent>
+    private val eventsSelectedDay: List<Event?>
 ) : RecyclerView.Adapter<HourEventRecyclerViewAdapter.HourEventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourEventViewHolder {
@@ -20,12 +20,12 @@ class HourEventRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: HourEventViewHolder, position: Int) {
-        val event = hourEvents[position]
-        holder.bind(event, datePresenter)
+        val event = eventsSelectedDay[position]
+        holder.bind(event!!, datePresenter)
     }
 
 
-    override fun getItemCount(): Int = hourEvents.size
+    override fun getItemCount(): Int = eventsSelectedDay.size
 
    inner class HourEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val timeTextView: TextView = itemView.findViewById(R.id.timeTV)
@@ -33,9 +33,9 @@ class HourEventRecyclerViewAdapter(
         private val event2TextView: TextView = itemView.findViewById(R.id.event2)
         private val event3TextView: TextView = itemView.findViewById(R.id.event3)
 
-        fun bind(event: HourEvent, datePresenter: DatePresenter) {
+        fun bind(event: Event, datePresenter: DatePresenter) {
             setHour(event.time, datePresenter)
-            setEvents(event.events)
+            setEvents(listOf(event))
         }
 
         private fun setHour(time: LocalTime, datePresenter: DatePresenter) {
