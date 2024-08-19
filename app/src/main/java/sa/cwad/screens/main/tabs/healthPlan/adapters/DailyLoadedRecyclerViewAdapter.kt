@@ -10,14 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.databinding.DailyCellBinding
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
-import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import java.time.format.TextStyle
 import java.util.Locale
 
 class DailyLoadedRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
-    var mItemList: ArrayList<Event?>,
+    var mItemList: ArrayList<EventForDate?>,
     val backButtonListener: () -> Unit,
     val nextButtonListener: () -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -41,11 +40,11 @@ class DailyLoadedRecyclerViewAdapter(
         }
     }
 
-    fun submitList(newData: List<Event?>) {
-        mItemList.clear()
-        mItemList.addAll(newData)
-        notifyDataSetChanged()
-    }
+//    fun submitList(newData: List<Event?>) {
+//        mItemList.clear()
+//        mItemList.addAll(newData)
+//        notifyDataSetChanged()
+//    }
 
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
@@ -69,11 +68,13 @@ class DailyLoadedRecyclerViewAdapter(
         val binding: DailyCellBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(position: Int) {
+            val r = mItemList
             val date = mItemList[position]!!.date
 
             binding.monthDayTV.text = date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.getDefault())
             binding.monthDayTV.text = datePresenter.monthDayFromDate(date)
-            binding.hourListView.adapter = HourEventRecyclerViewAdapter(datePresenter, mItemList)
+            binding.hourListView.adapter =
+                mItemList[position]?.let { HourEventRecyclerViewAdapter(datePresenter, it) }
             binding.hourListView.layoutManager = LinearLayoutManager(binding.root.context,LinearLayoutManager.VERTICAL, false)
             binding.back.setOnClickListener{ backButtonListener() }
             binding.next.setOnClickListener{ nextButtonListener() }

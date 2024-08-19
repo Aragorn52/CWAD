@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import sa.cwad.R
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
+import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.HourEvent
 import java.time.LocalTime
 
 class HourEventRecyclerViewAdapter(
     private val datePresenter: DatePresenter,
-    private val eventsSelectedDay: List<Event?>
+    private val eventsSelectedDay: EventForDate
 ) : RecyclerView.Adapter<HourEventRecyclerViewAdapter.HourEventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourEventViewHolder {
@@ -20,12 +21,12 @@ class HourEventRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: HourEventViewHolder, position: Int) {
-        val event = eventsSelectedDay[position]
+        val event = eventsSelectedDay.hourEvent[position]
         holder.bind(event!!, datePresenter)
     }
 
 
-    override fun getItemCount(): Int = eventsSelectedDay.size
+    override fun getItemCount(): Int = eventsSelectedDay.hourEvent.size
 
    inner class HourEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val timeTextView: TextView = itemView.findViewById(R.id.timeTV)

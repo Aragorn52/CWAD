@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import sa.cwad.model.settings.AppSettings
@@ -39,7 +40,7 @@ class DailyViewModel @Inject constructor(
         }
     }
 
-    fun getEventList(selectDate: LocalDate) {
+    fun searchEventListOnDate(selectDate: LocalDate) {
         viewModelScope.launch {
             repository.getEventsByAccountIdAndDate(accountId = appSettings.getCurrentAccountId(), date)
                 .collect { eventList ->
@@ -47,5 +48,20 @@ class DailyViewModel @Inject constructor(
                     _getEventListEvent.postValue(eventList)
                 }
         }
+    }
+
+    suspend fun getEventList(selectDate: LocalDate): List<Event?> {
+
+        val res =  viewModelScope.async {
+            val res = mutableListOf<Event?>();
+             repository.getEventsByAccountIdAndDate(accountId = appSettings.getCurrentAccountId(), date)
+                .collect { eventList ->
+                    res.clear()
+                    res.addAll(eventList.filter { it?.date == selectDate })
+                }
+            res
+        }
+        val t = res
+        return mutableListOf()
     }
 }

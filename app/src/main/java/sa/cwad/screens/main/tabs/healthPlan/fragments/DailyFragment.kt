@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.SnapHelper
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import sa.cwad.R
 import sa.cwad.databinding.FragmentDailyBinding
@@ -22,7 +25,6 @@ import sa.cwad.recyclerView.decorators.HorizontalSpaceItemDecoration
 import sa.cwad.recyclerView.listeners.DiagonalBlockerTouchListener
 import sa.cwad.screens.main.tabs.healthPlan.DatePresenter
 import sa.cwad.screens.main.tabs.healthPlan.adapters.DailyLoadedRecyclerViewAdapter
-import sa.cwad.screens.main.tabs.healthPlan.models.entities.Event
 import sa.cwad.screens.main.tabs.healthPlan.models.entities.EventForDate
 import sa.cwad.screens.main.tabs.healthPlan.viewModels.DailyViewModel
 import java.time.format.DateTimeFormatter
@@ -39,7 +41,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     private lateinit var binding: FragmentDailyBinding
 
-    private var rowsArrayList = arrayListOf<Event?>()
+    private val rowsArrayList = arrayListOf<EventForDate?>()
 
     private var isLoading = false
 
@@ -56,15 +58,9 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        listenData()
 //        initEventData()
         initAdapter()
         initListeners()
-//        viewModel.getEventListEvent.observe(viewLifecycleOwner) { list ->
-//            rowsArrayList = list as ArrayList<Event?>
-//        }
-//        initAdapter()
-//        initListeners()
 
         binding.newEventBT.setOnClickListener {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -76,25 +72,34 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         }
     }
 
-//    private fun initEventData() {
-//        var date = viewModel.date.minusDays(1)
-////        for (i in 0 until 10) {
-//            viewModel.getEventList(date)
-//            date = date.plusDays(1)
-////        }
-//    }
-
-    private fun listenData() {
-        viewModel.getEventListEvent.observe(viewLifecycleOwner) { list ->
-            val adapter = binding.recyclerView.adapter as DailyLoadedRecyclerViewAdapter
-            adapter.submitList(list)
+    private suspend fun initEventData() {
+        lifecycleScope.launch {
+            var date = viewModel.date.minusDays(1)
+            for (i in 0 until 10) {
+                val events = viewModel.getEventList(date)
+                val element = EventForDate(
+                    date,
+                    events
+                )
+                rowsArrayList.add(element)
+                date = date.plusDays(1)
+            }
         }
     }
 
+
     private fun initAdapter() {
         val manager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.recyclerView.adapter =
-            DailyLoadedRecyclerViewAdapter(datePresenter, rowsArrayList, ::goBackButton, ::goNextButton)
+        lifecycleScope.launch {
+            initEventData()
+            binding.recyclerView.adapter =
+                DailyLoadedRecyclerViewAdapter(
+                    datePresenter,
+                    rowsArrayList,
+                    ::goBackButton,
+                    ::goNextButton
+                )
+        }
         binding.recyclerView.layoutManager = manager
 
         val snapHelper: SnapHelper = PagerSnapHelper()
@@ -111,7 +116,8 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
 
                 val layoutManager = recyclerView.layoutManager as LinearLayoutManager?
                 val lastVisibleItemPosition = layoutManager?.findLastCompletelyVisibleItemPosition()
-                val firstVisibleItemPosition = layoutManager?.findFirstCompletelyVisibleItemPosition()
+                val firstVisibleItemPosition =
+                    layoutManager?.findFirstCompletelyVisibleItemPosition()
 
                 if (lastVisibleItemPosition != null && lastVisibleItemPosition != -1) {
                     viewModel.date = rowsArrayList[lastVisibleItemPosition]?.date ?: viewModel.date
@@ -136,7 +142,7 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
         if (lastVisibleItemPosition == 0) {
             loadDownMore()
         }
-        binding.recyclerView.post{
+        binding.recyclerView.post {
             binding.recyclerView.smoothScrollToPosition(lastVisibleItemPosition - 1)
         }
     }
@@ -144,31 +150,41 @@ class DailyFragment : Fragment(R.layout.fragment_daily) {
     private fun goNextButton() {
         val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager?
         val pos = layoutManager!!.findFirstVisibleItemPosition()
-        binding.recyclerView.post{
+        binding.recyclerView.post {
             binding.recyclerView.smoothScrollToPosition(pos + 1)
         }
     }
 
+
     private fun loadUpMore() {
-        val dateLast = rowsArrayList.last()!!.date
-        viewModel.getEventList(dateLast.plusDays(1))
-        listenData()
-//        for (i in 0 until 10) {
-//            val dateLast = rowsArrayList.last()!!.date
-//            val actualDate = dateLast.plusDays(1)
-////            val event = EventForDate(actualDate, viewModel.hourEventsListForDate(actualDate))
-////            rowsArrayList.add(event)
-//        }
+        for (i in 0 until 10) {
+            val dateLast = rowsArrayList.last()!!.date
+            var actualDate = dateLast.plusDays(1)
+            lifecycleScope.launch {
+                val events = viewModel.getEventList(actualDate)
+                val element = EventForDate(
+                    actualDate,
+                    events
+                )
+                rowsArrayList.add(element)
+                actualDate = actualDate.plusDays(1)
+            }
+        }
 
         notifyAdapter()
     }
 
     private fun loadDownMore() {
-        val dateFirst = rowsArrayList[0]!!.date
-        val lastDay = dateFirst.minusDays(1)
-//        val events = viewModel.hourEventsListForDate(lastDay)
-//        rowsArrayList.add(index = 0, element = EventForDate(lastDay, events))
-        viewModel.getEventList(lastDay)
+        lifecycleScope.launch {
+            val dateFirst = rowsArrayList[0]!!.date
+            val lastDay = dateFirst.minusDays(1)
+            val events = viewModel.getEventList(lastDay)
+            val element = EventForDate(
+                lastDay,
+                events
+            )
+            rowsArrayList.add(index = 0, element = element)
+        }
 
         binding.recyclerView.adapter?.notifyItemInserted(0)
         notifyAdapter()
